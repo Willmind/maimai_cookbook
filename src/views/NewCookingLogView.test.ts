@@ -18,6 +18,23 @@ describe('NewCookingLogView', () => {
     push.mockReset()
   })
 
+  it('lets user pick cooking result via segmented buttons and saves it', async () => {
+    const wrapper = mount(NewCookingLogView, {
+      props: {
+        id: 'recipe-tomato-eggs',
+      },
+    })
+
+    await flushPromises()
+
+    await wrapper.get('[data-test="log-result-good"]').trigger('click')
+    await wrapper.get('[data-test="log-note"]').setValue('这次更嫩。')
+    await wrapper.get('form').trigger('submit.prevent')
+
+    const logs = await cookingLogRepository.listByRecipeId('recipe-tomato-eggs')
+    expect(logs.some((log) => log.note === '这次更嫩。' && log.result === 'good')).toBe(true)
+  })
+
   it('shows readonly recipe name and creates a cooking log for that recipe', async () => {
     const wrapper = mount(NewCookingLogView, {
       props: {

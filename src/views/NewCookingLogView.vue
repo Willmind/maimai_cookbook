@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
+import SegmentedControl from '@/components/SegmentedControl.vue'
 import SingleImageUpload, { type ImageUploadState } from '@/components/SingleImageUpload.vue'
 import { cookingLogRepository, recipeRepository } from '@/data/repositories'
 import type { Recipe } from '@/types/recipe'
@@ -76,15 +77,16 @@ onMounted(async () => {
         <input v-model="cookedAt" type="date" />
       </label>
 
-      <label class="field">
-        <span>这次做得怎么样？ <small>可选</small></span>
-        <select v-model="result">
-          <option value="">不评价</option>
-          <option value="good">好吃</option>
-          <option value="ok">一般</option>
-          <option value="failed">翻车</option>
-        </select>
-      </label>
+      <SegmentedControl
+        v-model="result"
+        label="这次做得怎么样？"
+        :options="[
+          { value: '', label: '不评价', testId: 'log-result-none' },
+          { value: 'good', label: '好吃', testId: 'log-result-good' },
+          { value: 'ok', label: '一般', testId: 'log-result-ok' },
+          { value: 'failed', label: '翻车', testId: 'log-result-failed' },
+        ]"
+      />
 
       <SingleImageUpload
         label="成品照片"
