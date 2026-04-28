@@ -431,6 +431,87 @@ h3 {
   cursor: pointer;
 }
 
+.ghost-action,
+.small-action {
+  width: fit-content;
+  cursor: pointer;
+}
+
+.ghost-action {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: 0;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.upload-field {
+  display: grid;
+  gap: 8px;
+}
+
+.field-label {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.field-label span {
+  font-weight: 700;
+}
+
+.field-label small {
+  color: var(--muted);
+}
+
+.upload-box {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--white);
+  padding: 12px;
+}
+
+.upload-thumb {
+  min-height: 76px;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 34% 22%, rgba(255, 253, 248, 0.72), transparent 24%),
+    linear-gradient(135deg, rgba(200, 93, 63, 0.18), rgba(91, 104, 69, 0.16)),
+    var(--paper-deep);
+}
+
+.upload-thumb.has-image {
+  box-shadow: inset 0 0 0 2px rgba(91, 104, 69, 0.18);
+}
+
+.progress {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(37, 25, 18, 0.08);
+  margin-top: 8px;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--olive);
+}
+
+.inline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
 @media (max-width: 680px) {
   .top {
     align-items: flex-start;

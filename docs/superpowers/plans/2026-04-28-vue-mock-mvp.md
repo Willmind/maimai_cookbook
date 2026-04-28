@@ -80,9 +80,9 @@ src/
 
 ## Phase 6: Image UI States
 
-- [ ] Add single-image UI component state for empty, uploading, uploaded, and failed.
-- [ ] Support replace and delete actions in local state.
-- [ ] Do not connect Supabase Storage in this phase.
+- [x] Add single-image UI component state for empty, uploading, uploaded, and failed.
+- [x] Support replace and delete actions in local state.
+- [x] Do not connect Supabase Storage in this phase.
 
 ## Phase 7: MVP Verification
 

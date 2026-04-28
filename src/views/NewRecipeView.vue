@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
+import SingleImageUpload, { type ImageUploadState } from '@/components/SingleImageUpload.vue'
 import { recipeRepository } from '@/data/repositories'
 
 const router = useRouter()
@@ -14,6 +15,23 @@ const method = ref('')
 const nextNote = ref('')
 const wantToMake = ref(true)
 const error = ref('')
+const coverImageState = ref<ImageUploadState>('empty')
+const coverImageFileName = ref('')
+
+const markCoverUploaded = () => {
+  coverImageState.value = 'uploaded'
+  coverImageFileName.value = 'cover-demo.webp'
+}
+
+const markCoverFailed = () => {
+  coverImageState.value = 'failed'
+  coverImageFileName.value = 'cover-demo.webp'
+}
+
+const clearCoverImage = () => {
+  coverImageState.value = 'empty'
+  coverImageFileName.value = ''
+}
 
 const saveRecipe = async () => {
   error.value = ''
@@ -61,6 +79,20 @@ const saveRecipe = async () => {
         <span>简介 <small>可选</small></span>
         <textarea v-model="description" rows="3" placeholder="这道菜适合什么时候做？目标口味是什么？"></textarea>
       </label>
+
+      <SingleImageUpload
+        label="封面图"
+        :state="coverImageState"
+        :file-name="coverImageFileName"
+        :progress="64"
+        @choose="markCoverUploaded"
+        @replace="markCoverUploaded"
+        @delete="clearCoverImage"
+        @retry="markCoverUploaded"
+        @remove="clearCoverImage"
+      />
+
+      <button class="ghost-action" type="button" @click="markCoverFailed">模拟上传失败</button>
 
       <label class="field">
         <span>食材 <small>可选，每行一项</small></span>

@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
+import SingleImageUpload, { type ImageUploadState } from '@/components/SingleImageUpload.vue'
 import { cookingLogRepository, recipeRepository } from '@/data/repositories'
 import type { Recipe } from '@/types/recipe'
 
@@ -17,8 +18,25 @@ const result = ref<'good' | 'ok' | 'failed' | ''>('')
 const note = ref('')
 const changes = ref('')
 const nextNote = ref('')
+const photoState = ref<ImageUploadState>('empty')
+const photoFileName = ref('')
 
 const recipeName = computed(() => recipe.value?.name ?? '')
+
+const markPhotoUploaded = () => {
+  photoState.value = 'uploaded'
+  photoFileName.value = 'dish-demo.webp'
+}
+
+const markPhotoFailed = () => {
+  photoState.value = 'failed'
+  photoFileName.value = 'dish-demo.webp'
+}
+
+const clearPhoto = () => {
+  photoState.value = 'empty'
+  photoFileName.value = ''
+}
 
 const saveLog = async () => {
   await cookingLogRepository.create({
@@ -67,6 +85,20 @@ onMounted(async () => {
           <option value="failed">翻车</option>
         </select>
       </label>
+
+      <SingleImageUpload
+        label="成品照片"
+        :state="photoState"
+        :file-name="photoFileName"
+        :progress="64"
+        @choose="markPhotoUploaded"
+        @replace="markPhotoUploaded"
+        @delete="clearPhoto"
+        @retry="markPhotoUploaded"
+        @remove="clearPhoto"
+      />
+
+      <button class="ghost-action" type="button" @click="markPhotoFailed">模拟上传失败</button>
 
       <label class="field">
         <span>这次记录 <small>可选</small></span>

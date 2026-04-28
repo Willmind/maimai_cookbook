@@ -40,5 +40,17 @@ describe('NewRecipeView', () => {
     expect(wrapper.text()).toContain('菜名必填')
     expect(push).not.toHaveBeenCalled()
   })
-})
 
+  it('shows one-image cover upload states', async () => {
+    const wrapper = mount(NewRecipeView)
+
+    expect(wrapper.text()).toContain('封面图')
+    expect(wrapper.text()).toContain('最多 1 张')
+
+    await wrapper.get('.secondary-action').trigger('click')
+    expect(wrapper.text()).toContain('照片已上传')
+
+    await wrapper.get('[data-test="delete-image"]').trigger('click')
+    expect(wrapper.text()).toContain('还没有选择照片')
+  })
+})

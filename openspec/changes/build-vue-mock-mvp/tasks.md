@@ -31,7 +31,7 @@
 - [x] Implement recipe filters: all, want-to-make, new, done, frequent.
 - [x] Implement create recipe with default `want_to_make = true`.
 - [x] Implement create cooking log with required `recipe_id`.
-- [ ] Implement one-image UI state for recipe cover and cooking log photo.
+- [x] Implement one-image UI state for recipe cover and cooking log photo.
 
 ## 5. Verification
 
