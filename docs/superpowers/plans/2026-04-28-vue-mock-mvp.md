@@ -86,11 +86,13 @@ src/
 
 ## Phase 7: MVP Verification
 
-- [ ] Run unit tests.
-- [ ] Run the dev server.
-- [ ] Check desktop and mobile responsive layouts.
-- [ ] Verify the MVP acceptance criteria in `docs/product-mvp.md`.
-- [ ] Record any gaps before adding Supabase.
+- [x] Run unit tests.
+- [x] Run the dev server.
+- [x] Check desktop and mobile responsive layouts.
+- [x] Verify the MVP acceptance criteria in `docs/product-mvp.md`.
+- [x] Record any gaps before adding Supabase.
+
+Evidence and notes: `docs/phase7-mvp-verification.md`
 
 ## Later: Supabase Integration
 
