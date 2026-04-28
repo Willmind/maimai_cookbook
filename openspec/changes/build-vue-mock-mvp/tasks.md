@@ -27,8 +27,8 @@
 
 ## 4. Behavior
 
-- [ ] Implement search grouping: recipes first, cooking logs second.
-- [ ] Implement recipe filters: all, want-to-make, new, done, frequent.
+- [x] Implement search grouping: recipes first, cooking logs second.
+- [x] Implement recipe filters: all, want-to-make, new, done, frequent.
 - [x] Implement create recipe with default `want_to_make = true`.
 - [x] Implement create cooking log with required `recipe_id`.
 - [ ] Implement one-image UI state for recipe cover and cooking log photo.
@@ -39,5 +39,5 @@
 - [x] Test cooking log cannot be created without recipe id.
 - [x] Test home recent list uses cooking logs.
 - [x] Test home want list uses recipes.
-- [ ] Test search result ordering.
-- [ ] Test all recipes filters.
+- [x] Test search result ordering.
+- [x] Test all recipes filters.

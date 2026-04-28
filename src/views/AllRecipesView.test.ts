@@ -23,4 +23,26 @@ describe('AllRecipesView', () => {
     expect(wrapper.text()).toContain('葱油拌面')
     expect(wrapper.text()).toContain('照烧鸡腿饭')
   })
+
+  it('filters recipes by want-to-make and familiarity', async () => {
+    const wrapper = mount(AllRecipesView, {
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub,
+        },
+      },
+    })
+
+    await flushPromises()
+    await wrapper.get('[data-test="filter-want"]').trigger('click')
+
+    expect(wrapper.text()).toContain('番茄炒蛋')
+    expect(wrapper.text()).toContain('照烧鸡腿饭')
+    expect(wrapper.text()).not.toContain('葱油拌面')
+
+    await wrapper.get('[data-test="filter-new"]').trigger('click')
+
+    expect(wrapper.text()).toContain('照烧鸡腿饭')
+    expect(wrapper.text()).not.toContain('番茄炒蛋')
+  })
 })

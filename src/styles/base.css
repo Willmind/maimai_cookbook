@@ -129,9 +129,15 @@ a {
   gap: 22px;
 }
 
+.search-groups {
+  display: grid;
+  gap: 18px;
+}
+
 @media (min-width: 900px) {
   .home-columns,
-  .detail-grid {
+  .detail-grid,
+  .search-groups {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

@@ -72,11 +72,11 @@ src/
 
 ## Phase 5: Search And Filtering
 
-- [ ] Implement recipe-first search grouping.
-- [ ] Prioritize recipe name matches.
-- [ ] Search ingredients, method, tags, and cooking log notes.
-- [ ] Sort cooking log results by recent date first.
-- [ ] Add tests for search ordering.
+- [x] Implement recipe-first search grouping.
+- [x] Prioritize recipe name matches.
+- [x] Search ingredients, method, tags, and cooking log notes.
+- [x] Sort cooking log results by recent date first.
+- [x] Add tests for search ordering.
 
 ## Phase 6: Image UI States
 
