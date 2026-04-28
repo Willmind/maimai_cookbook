@@ -1,0 +1,92 @@
+---
+description: 麦麦手记项目规则
+globs:
+  - "**/*"
+alwaysApply: true
+---
+
+# 麦麦手记 Cursor Rules
+
+## 项目定位
+
+麦麦手记是个人菜谱与做饭记录应用。第一版先做 Vue3 本地 mock MVP，确认交互后再接 Supabase。
+
+先阅读这些文件：
+
+- `docs/product-mvp.md`
+- `openspec/project.md`
+- `openspec/specs/maimai-cookbook/spec.md`
+- `openspec/changes/build-vue-mock-mvp/`
+- `docs/superpowers/plans/2026-04-28-vue-mock-mvp.md`
+
+## 技术栈
+
+- Vue 3
+- TypeScript
+- Vite
+- Vue Router
+- Pinia
+- Vitest
+- Vue Test Utils
+- Supabase Postgres + Storage later
+
+## 开发规则
+
+- 第一版使用本地 mock 数据。
+- mock 数据字段必须对齐未来 Supabase schema。
+- 组件不能直接 import mock arrays。
+- 页面必须通过 repository 接口读写数据。
+- 不要把复杂业务逻辑塞进 Vue 组件。
+- 只在跨页面共享状态确实需要时使用 Pinia。
+- 先不要引入大型 UI 库。
+- 样式优先用 scoped CSS 或轻量 CSS 文件。
+
+## UI 设计方向
+
+- 整体气质是温暖纸质厨房手记，不是通用后台或 SaaS 模板。
+- 关键词：米纸背景、番茄红、橄榄绿、温和阴影、圆角卡片、便签感、个人笔记感。
+- 可以使用纸张纹理、拍立得式图片、轻微卡片浮起、搜索结果淡入、手账式表单。
+- 不要使用暗黑霓虹、玻璃拟态、赛博风、强 3D、粒子背景、过度滚动动画、通用紫色渐变。
+- 动效保持轻、慢、有用途；优先 CSS transition，不为炫技引入动画库。
+- 图片占位应尽量像厨房照片、拍立得或便签相框，不要只用普通渐变块。
+
+## 产品规则
+
+- `recipes` 是菜谱档案。
+- `cooking_logs` 是做饭记录。
+- 做饭记录必须通过 `recipe_id` 关联菜谱。
+- 没有菜谱时不能记录一次。
+- 记录一次只能从菜谱详情进入。
+- 新建菜谱只要求 `name` 必填。
+- 新建菜谱默认 `want_to_make = true`，用户可以取消。
+- `want_to_make` 和 `familiarity` 独立，做过的菜也可以继续想做。
+- 记录一次页面中的菜名只读。
+- 菜谱封面和做饭记录照片第一版都最多 1 张。
+
+## 非 MVP
+
+不要提前实现：
+
+- 随机一道。
+- 动态标签管理。
+- 多图上传。
+- 全局新增做饭记录。
+- 全部做饭记录列表页。
+- 菜单计划。
+- 购物清单。
+- 公开分享。
+
+## OpenSpec 工作流
+
+新增较大功能前，先创建或更新 `openspec/changes/<change-id>/`：
+
+- `proposal.md`
+- `design.md`
+- `tasks.md`
+- `specs/<capability>/spec.md`
+
+实现前先确认 OpenSpec 校验通过：
+
+```bash
+openspec validate --all
+```
