@@ -21,23 +21,23 @@
 
 - [x] Build home page with search, recent cooking logs, and want-to-make recipes.
 - [x] Build all recipes page with search and lightweight filters.
-- [ ] Build new recipe page with only recipe name required.
+- [x] Build new recipe page with only recipe name required.
 - [x] Build recipe detail page with recipe fields and cooking log timeline.
-- [ ] Build new cooking log page entered from recipe detail only.
+- [x] Build new cooking log page entered from recipe detail only.
 
 ## 4. Behavior
 
 - [ ] Implement search grouping: recipes first, cooking logs second.
 - [ ] Implement recipe filters: all, want-to-make, new, done, frequent.
-- [ ] Implement create recipe with default `want_to_make = true`.
-- [ ] Implement create cooking log with required `recipe_id`.
+- [x] Implement create recipe with default `want_to_make = true`.
+- [x] Implement create cooking log with required `recipe_id`.
 - [ ] Implement one-image UI state for recipe cover and cooking log photo.
 
 ## 5. Verification
 
 - [x] Test recipe creation defaults.
 - [x] Test cooking log cannot be created without recipe id.
-- [ ] Test home recent list uses cooking logs.
-- [ ] Test home want list uses recipes.
+- [x] Test home recent list uses cooking logs.
+- [x] Test home want list uses recipes.
 - [ ] Test search result ordering.
 - [ ] Test all recipes filters.

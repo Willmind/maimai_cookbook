@@ -1,12 +1,91 @@
 <script setup lang="ts">
-defineProps<{
+import { computed, onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+import { cookingLogRepository, recipeRepository } from '@/data/repositories'
+import type { Recipe } from '@/types/recipe'
+
+const props = defineProps<{
   id: string
 }>()
+
+const router = useRouter()
+
+const recipe = ref<Recipe>()
+const cookedAt = ref(new Date().toISOString().slice(0, 10))
+const result = ref<'good' | 'ok' | 'failed' | ''>('')
+const note = ref('')
+const changes = ref('')
+const nextNote = ref('')
+
+const recipeName = computed(() => recipe.value?.name ?? '')
+
+const saveLog = async () => {
+  await cookingLogRepository.create({
+    recipeId: props.id,
+    cookedAt: cookedAt.value || undefined,
+    result: result.value || undefined,
+    note: note.value || undefined,
+    changes: changes.value || undefined,
+    nextNote: nextNote.value || undefined,
+  })
+
+  await router.push(`/recipes/${props.id}`)
+}
+
+onMounted(async () => {
+  recipe.value = await recipeRepository.getById(props.id)
+})
 </script>
 
 <template>
-  <section class="screen">
-    <p class="muted">记录一次骨架：将从菜谱 {{ id }} 带入只读菜名。</p>
+  <section class="screen form-page">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">厨房日记</p>
+        <h1>记录一次</h1>
+      </div>
+    </div>
+
+    <form v-if="recipe" class="form-grid" @submit.prevent="saveLog">
+      <label class="field">
+        <span>这次做的是 <small>从菜谱详情带入，不可修改</small></span>
+        <input data-test="log-recipe-name" :value="recipeName" readonly />
+      </label>
+
+      <label class="field">
+        <span>日期 <small>可选，默认今天</small></span>
+        <input v-model="cookedAt" type="date" />
+      </label>
+
+      <label class="field">
+        <span>这次做得怎么样？ <small>可选</small></span>
+        <select v-model="result">
+          <option value="">不评价</option>
+          <option value="good">好吃</option>
+          <option value="ok">一般</option>
+          <option value="failed">翻车</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span>这次记录 <small>可选</small></span>
+        <textarea v-model="note" data-test="log-note" rows="4" placeholder="这次有什么值得记住？"></textarea>
+      </label>
+
+      <label class="field">
+        <span>和上次比改了什么？ <small>可选</small></span>
+        <textarea v-model="changes" rows="3" placeholder="糖少放、火更小、顺序改了..."></textarea>
+      </label>
+
+      <label class="field">
+        <span>下次要注意什么？ <small>可选</small></span>
+        <textarea v-model="nextNote" rows="3" placeholder="给下一次下厨的自己留一句话"></textarea>
+      </label>
+
+      <button class="primary-action submit-action" type="submit">保存这次记录</button>
+    </form>
+
+    <p v-else class="muted">没有找到这道菜，暂时不能记录一次。</p>
   </section>
 </template>
-
