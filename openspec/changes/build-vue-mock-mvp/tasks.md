@@ -2,20 +2,20 @@
 
 ## 1. Project Setup
 
-- [ ] Scaffold Vue3 + TypeScript + Vite.
-- [ ] Add Vue Router.
-- [ ] Add Pinia.
-- [ ] Add Vitest and Vue Test Utils.
-- [ ] Add base app shell and route page shells.
+- [x] Scaffold Vue3 + TypeScript + Vite.
+- [x] Add Vue Router.
+- [x] Add Pinia.
+- [x] Add Vitest and Vue Test Utils.
+- [x] Add base app shell and route page shells.
 
 ## 2. Domain And Data Layer
 
-- [ ] Define recipe and cooking log TypeScript types.
-- [ ] Create mock recipe data.
-- [ ] Create mock cooking log data.
-- [ ] Create repository interfaces.
-- [ ] Implement mock recipe repository.
-- [ ] Implement mock cooking log repository.
+- [x] Define recipe and cooking log TypeScript types.
+- [x] Create mock recipe data.
+- [x] Create mock cooking log data.
+- [x] Create repository interfaces.
+- [x] Implement mock recipe repository.
+- [x] Implement mock cooking log repository.
 
 ## 3. Core Pages
 
@@ -35,8 +35,8 @@
 
 ## 5. Verification
 
-- [ ] Test recipe creation defaults.
-- [ ] Test cooking log cannot be created without recipe id.
+- [x] Test recipe creation defaults.
+- [x] Test cooking log cannot be created without recipe id.
 - [ ] Test home recent list uses cooking logs.
 - [ ] Test home want list uses recipes.
 - [ ] Test search result ordering.

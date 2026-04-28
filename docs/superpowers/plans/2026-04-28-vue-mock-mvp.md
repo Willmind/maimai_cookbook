@@ -40,27 +40,27 @@ src/
 
 ## Phase 1: Scaffold
 
-- [ ] Create Vue3 + TypeScript + Vite project in the repository.
-- [ ] Add Vue Router, Pinia, Vitest, and Vue Test Utils.
-- [ ] Add routes for home, all recipes, new recipe, recipe detail, and new cooking log.
-- [ ] Port the visual direction from `personal-recipe-notebook.html` into the Vue app shell.
+- [x] Create Vue3 + TypeScript + Vite project in the repository.
+- [x] Add Vue Router, Pinia, Vitest, and Vue Test Utils.
+- [x] Add routes for home, all recipes, new recipe, recipe detail, and new cooking log.
+- [x] Port the visual direction from `personal-recipe-notebook.html` into the Vue app shell.
 
 ## Phase 2: Domain Types
 
-- [ ] Create `Recipe` type with fields from `docs/product-mvp.md`.
-- [ ] Create `CookingLog` type with fields from `docs/product-mvp.md`.
-- [ ] Create `RecipeFamiliarity = 'new' | 'done' | 'frequent'`.
-- [ ] Create `CookingResult = 'good' | 'ok' | 'failed'`.
-- [ ] Add fixed frontend tags as a constant list.
+- [x] Create `Recipe` type with fields from `docs/product-mvp.md`.
+- [x] Create `CookingLog` type with fields from `docs/product-mvp.md`.
+- [x] Create `RecipeFamiliarity = 'new' | 'done' | 'frequent'`.
+- [x] Create `CookingResult = 'good' | 'ok' | 'failed'`.
+- [x] Add fixed frontend tags as a constant list.
 
 ## Phase 3: Mock Repositories
 
-- [ ] Add mock recipes with realistic MVP data.
-- [ ] Add mock cooking logs linked by `recipe_id`.
-- [ ] Add `RecipeRepository` interface.
-- [ ] Add `CookingLogRepository` interface.
-- [ ] Implement mock repositories.
-- [ ] Add tests for recipe defaults and cooking log relationship rules.
+- [x] Add mock recipes with realistic MVP data.
+- [x] Add mock cooking logs linked by `recipe_id`.
+- [x] Add `RecipeRepository` interface.
+- [x] Add `CookingLogRepository` interface.
+- [x] Implement mock repositories.
+- [x] Add tests for recipe defaults and cooking log relationship rules.
 
 ## Phase 4: Pages
 
@@ -99,4 +99,3 @@ src/
 - [ ] Create Storage buckets for recipe covers and cooking log photos.
 - [ ] Implement Supabase repositories behind the same interfaces.
 - [ ] Add environment variables for Supabase URL and anon key.
-
