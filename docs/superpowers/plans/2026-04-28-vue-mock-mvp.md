@@ -64,10 +64,10 @@ src/
 
 ## Phase 4: Pages
 
-- [ ] Build home page showing search, recent cooking logs, and want-to-make recipes.
-- [ ] Build all recipes page with search and five lightweight filters.
+- [x] Build home page showing search, recent cooking logs, and want-to-make recipes.
+- [x] Build all recipes page with search and five lightweight filters.
 - [ ] Build new recipe page where only name is required.
-- [ ] Build recipe detail page with source, description, tags, want state, familiarity, ingredients, method, next note, and cooking logs.
+- [x] Build recipe detail page with source, description, tags, want state, familiarity, ingredients, method, next note, and cooking logs.
 - [ ] Build new cooking log page where recipe name is read-only.
 
 ## Phase 5: Search And Filtering

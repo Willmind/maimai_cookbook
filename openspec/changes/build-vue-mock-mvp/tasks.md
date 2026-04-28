@@ -19,10 +19,10 @@
 
 ## 3. Core Pages
 
-- [ ] Build home page with search, recent cooking logs, and want-to-make recipes.
-- [ ] Build all recipes page with search and lightweight filters.
+- [x] Build home page with search, recent cooking logs, and want-to-make recipes.
+- [x] Build all recipes page with search and lightweight filters.
 - [ ] Build new recipe page with only recipe name required.
-- [ ] Build recipe detail page with recipe fields and cooking log timeline.
+- [x] Build recipe detail page with recipe fields and cooking log timeline.
 - [ ] Build new cooking log page entered from recipe detail only.
 
 ## 4. Behavior

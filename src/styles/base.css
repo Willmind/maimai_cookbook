@@ -117,6 +117,249 @@ a {
   color: var(--muted);
 }
 
+.home-layout,
+.detail-page {
+  display: grid;
+  gap: 22px;
+}
+
+.home-columns,
+.detail-grid {
+  display: grid;
+  gap: 22px;
+}
+
+@media (min-width: 900px) {
+  .home-columns,
+  .detail-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.hero-card {
+  min-height: 230px;
+  background:
+    radial-gradient(circle at 86% 12%, rgba(213, 166, 79, 0.16), transparent 30%),
+    linear-gradient(135deg, rgba(255, 253, 248, 0.92), rgba(241, 231, 216, 0.72));
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: var(--olive);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: clamp(32px, 5vw, 54px);
+  letter-spacing: -0.04em;
+}
+
+h2 {
+  font-size: 22px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+.lead {
+  max-width: 52ch;
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 620px;
+  margin-top: 22px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--ink);
+  padding: 13px 16px;
+}
+
+.section-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.counter {
+  border-radius: 999px;
+  background: rgba(91, 104, 69, 0.12);
+  color: var(--olive);
+  padding: 7px 11px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.card-list {
+  display: grid;
+  gap: 10px;
+}
+
+.recipe-card {
+  display: grid;
+  grid-template-columns: 82px 1fr;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 253, 248, 0.78);
+  padding: 10px;
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.recipe-card:hover {
+  border-color: rgba(200, 93, 63, 0.28);
+  box-shadow: 0 12px 24px rgba(54, 36, 20, 0.08);
+  transform: translateY(-1px);
+}
+
+.photo-frame,
+.hero-photo,
+.timeline-photo {
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 253, 248, 0.7), transparent 24%),
+    linear-gradient(135deg, rgba(200, 93, 63, 0.2), rgba(91, 104, 69, 0.18)),
+    var(--paper-deep);
+}
+
+.photo-frame {
+  min-height: 76px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.tag {
+  border-radius: 999px;
+  background: rgba(91, 104, 69, 0.12);
+  color: var(--olive);
+  padding: 4px 9px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 18px;
+}
+
+.filter-chip {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--muted);
+  padding: 8px 12px;
+}
+
+.filter-chip.active {
+  border-color: rgba(91, 104, 69, 0.38);
+  background: rgba(91, 104, 69, 0.12);
+  color: var(--olive);
+  font-weight: 700;
+}
+
+.detail-hero {
+  display: grid;
+  gap: 22px;
+}
+
+@media (min-width: 780px) {
+  .detail-hero {
+    grid-template-columns: 260px 1fr;
+    align-items: center;
+  }
+}
+
+.hero-photo {
+  min-height: 260px;
+}
+
+.detail-copy {
+  display: grid;
+  gap: 12px;
+}
+
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.note-band {
+  border-left: 4px solid var(--gold);
+  border-radius: 16px;
+  background: rgba(213, 166, 79, 0.13);
+  padding: 14px 16px;
+}
+
+.multiline {
+  margin: 12px 0 0;
+  color: var(--muted);
+  white-space: pre-line;
+}
+
+.timeline {
+  display: grid;
+  gap: 10px;
+}
+
+.timeline-card {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 253, 248, 0.74);
+  padding: 14px;
+}
+
+.timeline-entry {
+  display: grid;
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .timeline-entry.has-photo {
+    grid-template-columns: 92px 1fr;
+  }
+}
+
+.timeline-photo {
+  min-height: 92px;
+}
+
+.timeline-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
 @media (max-width: 680px) {
   .top {
     align-items: flex-start;
@@ -127,4 +370,3 @@ a {
     width: 100%;
   }
 }
-
