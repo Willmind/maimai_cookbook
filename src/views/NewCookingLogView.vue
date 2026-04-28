@@ -81,10 +81,10 @@ onMounted(async () => {
         v-model="result"
         label="这次做得怎么样？"
         :options="[
-          { value: '', label: '不评价', testId: 'log-result-none' },
-          { value: 'good', label: '好吃', testId: 'log-result-good' },
-          { value: 'ok', label: '一般', testId: 'log-result-ok' },
-          { value: 'failed', label: '翻车', testId: 'log-result-failed' },
+          { value: '', label: '不评价', testId: 'log-result-none', tone: 'neutral' },
+          { value: 'good', label: '好吃', testId: 'log-result-good', tone: 'success' },
+          { value: 'ok', label: '一般', testId: 'log-result-ok', tone: 'warning' },
+          { value: 'failed', label: '翻车', testId: 'log-result-failed', tone: 'danger' },
         ]"
       />
 

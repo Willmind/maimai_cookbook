@@ -25,4 +25,30 @@ describe('RecipeDetailView', () => {
     expect(wrapper.text()).toContain('2026-04-26')
     expect(wrapper.text()).toContain('这次糖少放')
   })
+
+  it('colors cooking result tags with tones', async () => {
+    const wrapper = mount(RecipeDetailView, {
+      props: {
+        id: 'recipe-tomato-eggs',
+      },
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub,
+        },
+      },
+    })
+
+    await flushPromises()
+
+    const resultTags = wrapper.findAll('[data-test="log-result-tag"]')
+    expect(resultTags.length).toBeGreaterThan(0)
+
+    const tagTexts = resultTags.map((node) => node.text())
+    expect(tagTexts).toContain('好吃')
+    expect(tagTexts).toContain('一般')
+
+    const tagClasses = resultTags.map((node) => node.classes().join(' '))
+    expect(tagClasses.some((classes) => classes.includes('tone-success'))).toBe(true)
+    expect(tagClasses.some((classes) => classes.includes('tone-warning'))).toBe(true)
+  })
 })

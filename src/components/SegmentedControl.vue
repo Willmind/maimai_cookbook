@@ -3,6 +3,7 @@ type SegmentedOption<TValue extends string> = {
   value: TValue
   label: string
   testId?: string
+  tone?: 'neutral' | 'selected' | 'success' | 'warning' | 'danger' | 'info'
 }
 
 const props = defineProps<{
@@ -31,7 +32,10 @@ const choose = (value: string) => {
         v-for="option in options"
         :key="option.value"
         class="segmented-item"
-        :class="{ selected: option.value === modelValue }"
+        :class="[
+          { selected: option.value === modelValue },
+          option.tone ? `tone-${option.tone}` : null,
+        ]"
         type="button"
         role="radio"
         :aria-checked="option.value === modelValue"

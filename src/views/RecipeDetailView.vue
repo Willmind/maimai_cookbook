@@ -28,6 +28,13 @@ const resultLabel = (log: CookingLog) => {
   return '未评价'
 }
 
+const resultTone = (log: CookingLog) => {
+  if (log.result === 'good') return 'success'
+  if (log.result === 'ok') return 'warning'
+  if (log.result === 'failed') return 'danger'
+  return 'neutral'
+}
+
 onMounted(async () => {
   const [recipeDetail, logs] = await Promise.all([
     recipeRepository.getById(props.id),
@@ -92,7 +99,7 @@ onMounted(async () => {
             <div>
               <div class="timeline-top">
                 <span>{{ log.cookedAt }}</span>
-                <span class="tag">{{ resultLabel(log) }}</span>
+                <span data-test="log-result-tag" class="tag" :class="`tone-${resultTone(log)}`">{{ resultLabel(log) }}</span>
               </div>
               <p>{{ log.note }}</p>
               <p v-if="log.nextNote"><strong>下次：</strong>{{ log.nextNote }}</p>
