@@ -52,4 +52,17 @@ describe('NewRecipeView', () => {
     await wrapper.get('[data-test="delete-image"]').trigger('click')
     expect(wrapper.get('[data-test="choose-image"]')).toBeDefined()
   })
+
+  it('saves uploaded cover image path to mock recipe data', async () => {
+    const wrapper = mount(NewRecipeView)
+
+    await wrapper.get('[data-test="recipe-name"]').setValue('有封面的菜')
+    await wrapper.get('[data-test="choose-image"]').trigger('click')
+    await wrapper.get('form').trigger('submit.prevent')
+
+    const recipes = await recipeRepository.list()
+    const recipe = recipes.find((item) => item.name === '有封面的菜')
+
+    expect(recipe?.coverImagePath).toBe('mock/cover-demo.webp')
+  })
 })

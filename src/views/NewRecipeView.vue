@@ -33,6 +33,10 @@ const clearCoverImage = () => {
   coverImageFileName.value = ''
 }
 
+const savedCoverImagePath = () => {
+  return coverImageState.value === 'uploaded' ? 'mock/cover-demo.webp' : undefined
+}
+
 const saveRecipe = async () => {
   error.value = ''
 
@@ -45,6 +49,7 @@ const saveRecipe = async () => {
     name: name.value,
     source: source.value || undefined,
     description: description.value || undefined,
+    coverImagePath: savedCoverImagePath(),
     ingredients: ingredients.value || undefined,
     method: method.value || undefined,
     nextNote: nextNote.value || undefined,

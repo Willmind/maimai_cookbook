@@ -74,4 +74,23 @@ describe('NewCookingLogView', () => {
     await wrapper.get('[data-test="delete-image"]').trigger('click')
     expect(wrapper.get('[data-test="choose-image"]')).toBeDefined()
   })
+
+  it('saves uploaded cooking photo path to mock cooking log data', async () => {
+    const wrapper = mount(NewCookingLogView, {
+      props: {
+        id: 'recipe-tomato-eggs',
+      },
+    })
+
+    await flushPromises()
+
+    await wrapper.get('[data-test="choose-image"]').trigger('click')
+    await wrapper.get('[data-test="log-note"]').setValue('这次有照片。')
+    await wrapper.get('form').trigger('submit.prevent')
+
+    const logs = await cookingLogRepository.listByRecipeId('recipe-tomato-eggs')
+    const log = logs.find((item) => item.note === '这次有照片。')
+
+    expect(log?.photoPath).toBe('mock/dish-demo.webp')
+  })
 })

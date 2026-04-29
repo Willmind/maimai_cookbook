@@ -39,6 +39,10 @@ const clearPhoto = () => {
   photoFileName.value = ''
 }
 
+const savedPhotoPath = () => {
+  return photoState.value === 'uploaded' ? 'mock/dish-demo.webp' : undefined
+}
+
 const saveLog = async () => {
   await cookingLogRepository.create({
     recipeId: props.id,
@@ -47,6 +51,7 @@ const saveLog = async () => {
     note: note.value || undefined,
     changes: changes.value || undefined,
     nextNote: nextNote.value || undefined,
+    photoPath: savedPhotoPath(),
   })
 
   await router.push(`/recipes/${props.id}`)
