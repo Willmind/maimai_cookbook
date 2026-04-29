@@ -10,7 +10,7 @@
 npm test
 ```
 
-结果（2026-04-28）：`9 passed / 20 passed`，exit code 0。
+结果（2026-04-29）：`9 test files passed / 24 tests passed`，exit code 0。
 
 - **类型检查 + 生产构建**
 
@@ -18,7 +18,7 @@ npm test
 npm run build
 ```
 
-结果（2026-04-28）：`vue-tsc -b` + `vite build` 成功，exit code 0。
+结果（2026-04-29）：`vue-tsc -b` + `vite build` 成功，exit code 0。
 
 - **开发服务器启动**
 
@@ -26,7 +26,7 @@ npm run build
 npm run dev -- --host 127.0.0.1 --port 5173
 ```
 
-说明：若端口被占用，Vite 会自动切换端口；本次启动后显示 `Local: http://127.0.0.1:5174/`。
+说明：若端口被占用，Vite 会自动切换端口；本阶段已通过本地开发服务器进行页面人工验收。
 
 ## MVP 验收标准对齐（`docs/product-mvp.md` 第 9 节）
 
@@ -73,26 +73,25 @@ npm run dev -- --host 127.0.0.1 --port 5173
   - 证据：`src/components/SingleImageUpload.test.ts`、`src/views/NewRecipeView.test.ts`、`src/views/NewCookingLogView.test.ts` 覆盖“最多 1 张 / 上传成功 / 删除回空态”等状态。
   - 备注：Phase 6/7 不接 Supabase Storage，当前为本地 UI 状态模拟。
 
-## 响应式人工走查清单（桌面 + 390×844）
+## 响应式人工走查结果（桌面 + 390×844）
 
-> 说明：自动化环境未稳定完成浏览器走查，因此这里提供可快速复现的人工 checklist。
+> 结论（2026-04-29）：桌面和 390×844 移动端人工走查通过。
 >
 > 已尝试在自动化浏览器中访问本机 dev server（例如 `http://127.0.0.1:5180/`），但自动化进程无法稳定产出“页面证据级别”的走查结果（典型原因是：自动化运行环境与本机 `localhost/127.0.0.1` 网络语境隔离；同时自动化环境也无法直接读取仓库内的 `docs/product-mvp.md` 作为走查输入）。因此 Phase 7 的“浏览器验收”暂以人工 checklist 作为证据来源。
 
-1. **首页 `/`**
+1. **首页 `/`**：✅
    - 搜索框、两列布局（最近做过 / 想做）在移动端应变为单列且无横向滚动条。
    - 搜索结果出现后：两组（菜谱/做饭记录）顺序正确，卡片不溢出。
-2. **全部菜谱 `/recipes`**
+2. **全部菜谱 `/recipes`**：✅
    - filter chips 在移动端可换行，不遮挡点击；列表卡片无溢出。
-3. **新建菜谱 `/recipes/new`**
+3. **新建菜谱 `/recipes/new`**：✅
    - 表单在移动端滚动正常，主按钮始终可点；上传组件按钮布局不挤压。
-4. **菜谱详情 `/recipes/:id`**
+4. **菜谱详情 `/recipes/:id`**：✅
    - 头图区域与按钮行在窄屏不重叠；时间线卡片在窄屏不溢出。
-5. **记录一次 `/recipes/:id/logs/new`**
+5. **记录一次 `/recipes/:id/logs/new`**：✅
    - “这次做的是”只读输入框在移动端不溢出；保存按钮可点。
 
 ## 本阶段记录的 gap（接 Supabase 前）
 
 - （无）“只能从详情页进入记录一次”的路由级强约束：已确认验收口径为“无全局入口”，因此不作为 gap。
 - **端口占用提示**：开发时端口可能自动切换，建议在 README 或开发流程里写明。
-
