@@ -10,10 +10,10 @@
 
 ## 2. Supabase Storage
 
-- [ ] 创建 `recipe-covers` bucket。
-- [ ] 创建 `cooking-log-photos` bucket。
-- [ ] 定义单图文件路径规则。
-- [ ] 记录无登录 MVP 使用 public bucket 的取舍。
+- [x] 创建 `recipe-covers` bucket。
+- [x] 创建 `cooking-log-photos` bucket。
+- [x] 定义单图文件路径规则。
+- [x] 记录无登录 MVP 使用 public bucket 的取舍。
 
 ## 3. Client And Environment
 
