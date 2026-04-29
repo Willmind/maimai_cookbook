@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 import SegmentedControl from '@/components/SegmentedControl.vue'
+import PageLoadingOverlay from '@/components/PageLoadingOverlay.vue'
 import SingleImageUpload, { type ImageUploadState } from '@/components/SingleImageUpload.vue'
 import { cookingLogRepository, recipeRepository } from '@/data/repositories'
 import { resolveDataSource } from '@/data/repositories/dataSource'
@@ -17,6 +18,7 @@ const props = defineProps<{
 
 const router = useRouter()
 
+const loading = ref(true)
 const recipe = ref<Recipe>()
 const log = ref<CookingLog>()
 const cookedAt = ref(new Date().toISOString().slice(0, 10))
@@ -95,13 +97,17 @@ const saveLog = async () => {
 }
 
 onMounted(async () => {
-  const [foundRecipe, foundLog] = await Promise.all([
-    recipeRepository.getById(props.id),
-    cookingLogRepository.getById(props.logId),
-  ])
-  recipe.value = foundRecipe
-  if (foundLog && foundLog.recipeId === props.id) {
-    applyLog(foundLog)
+  try {
+    const [foundRecipe, foundLog] = await Promise.all([
+      recipeRepository.getById(props.id),
+      cookingLogRepository.getById(props.logId),
+    ])
+    recipe.value = foundRecipe
+    if (foundLog && foundLog.recipeId === props.id) {
+      applyLog(foundLog)
+    }
+  } finally {
+    loading.value = false
   }
 })
 </script>
@@ -115,7 +121,9 @@ onMounted(async () => {
       </div>
     </div>
 
-    <form v-if="recipe && log" class="form-grid" @submit.prevent="saveLog">
+    <PageLoadingOverlay v-if="loading" />
+
+    <form v-else-if="recipe && log" class="form-grid" @submit.prevent="saveLog">
       <label class="field">
         <span>这次做的是 <small>对应菜谱，不可修改</small></span>
         <input data-test="log-recipe-name" :value="recipeName" readonly />

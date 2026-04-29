@@ -28,6 +28,13 @@ const lastCoverFile = ref<File>()
 
 const coverImagePreviewUrl = computed(() => getPublicImageUrl('recipe-covers', coverImagePath.value))
 
+const wantToMakeChoice = computed({
+  get: () => (wantToMake.value ? 'yes' : 'no'),
+  set: (value: string) => {
+    wantToMake.value = value === 'yes'
+  },
+})
+
 const uploadCoverImage = async (file?: File) => {
   if (!file && resolveDataSource() === 'supabase') return
 
@@ -172,10 +179,14 @@ const saveRecipe = async () => {
         ]"
       />
 
-      <label class="toggle-line">
-        <input v-model="wantToMake" type="checkbox" />
-        <span>默认加入想做清单</span>
-      </label>
+      <SegmentedControl
+        v-model="wantToMakeChoice"
+        label="是否加入想做清单"
+        :options="[
+          { value: 'yes', label: '加入想做', testId: 'recipe-want-yes', tone: 'selected' },
+          { value: 'no', label: '暂时不加', testId: 'recipe-want-no', tone: 'neutral' },
+        ]"
+      />
 
       <p v-if="error" class="error-note">{{ error }}</p>
 

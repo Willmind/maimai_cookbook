@@ -4,6 +4,7 @@ import { RouterLink } from 'vue-router'
 
 import { cookingLogRepository, recipeRepository } from '@/data/repositories'
 import { getPublicImageUrl } from '@/data/supabase/imageStorage'
+import PageLoadingOverlay from '@/components/PageLoadingOverlay.vue'
 import type { CookingLog } from '@/types/cooking-log'
 import type { Recipe } from '@/types/recipe'
 
@@ -11,6 +12,7 @@ const props = defineProps<{
   id: string
 }>()
 
+const loading = ref(true)
 const recipe = ref<Recipe>()
 const cookingLogs = ref<CookingLog[]>([])
 
@@ -38,18 +40,26 @@ const resultTone = (log: CookingLog) => {
 }
 
 onMounted(async () => {
-  const [recipeDetail, logs] = await Promise.all([
-    recipeRepository.getById(props.id),
-    cookingLogRepository.listByRecipeId(props.id),
-  ])
+  try {
+    const [recipeDetail, logs] = await Promise.all([
+      recipeRepository.getById(props.id),
+      cookingLogRepository.listByRecipeId(props.id),
+    ])
 
-  recipe.value = recipeDetail
-  cookingLogs.value = logs
+    recipe.value = recipeDetail
+    cookingLogs.value = logs
+  } finally {
+    loading.value = false
+  }
 })
 </script>
 
 <template>
-  <section v-if="recipe" class="detail-page">
+  <section v-if="loading" class="screen">
+    <PageLoadingOverlay />
+  </section>
+
+  <section v-else-if="recipe" class="detail-page">
     <div class="screen detail-hero">
       <div class="hero-photo" :class="{ 'has-image': coverImageUrl }">
         <img v-if="coverImageUrl" :src="coverImageUrl" alt="" />

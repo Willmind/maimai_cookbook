@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 import SegmentedControl from '@/components/SegmentedControl.vue'
+import PageLoadingOverlay from '@/components/PageLoadingOverlay.vue'
 import SingleImageUpload, { type ImageUploadState } from '@/components/SingleImageUpload.vue'
 import { recipeRepository } from '@/data/repositories'
 import { resolveDataSource } from '@/data/repositories/dataSource'
@@ -16,6 +17,7 @@ const props = defineProps<{
 
 const router = useRouter()
 
+const loading = ref(true)
 const recipe = ref<Recipe>()
 const name = ref('')
 const source = ref('')
@@ -32,6 +34,13 @@ const coverImagePath = ref<string>()
 const lastCoverFile = ref<File>()
 
 const coverImagePreviewUrl = computed(() => getPublicImageUrl('recipe-covers', coverImagePath.value))
+
+const wantToMakeChoice = computed({
+  get: () => (wantToMake.value ? 'yes' : 'no'),
+  set: (value: string) => {
+    wantToMake.value = value === 'yes'
+  },
+})
 
 const applyRecipe = (value: Recipe) => {
   recipe.value = value
@@ -109,9 +118,13 @@ const saveRecipe = async () => {
 }
 
 onMounted(async () => {
-  const found = await recipeRepository.getById(props.id)
-  if (found) {
-    applyRecipe(found)
+  try {
+    const found = await recipeRepository.getById(props.id)
+    if (found) {
+      applyRecipe(found)
+    }
+  } finally {
+    loading.value = false
   }
 })
 </script>
@@ -125,7 +138,9 @@ onMounted(async () => {
       </div>
     </div>
 
-    <form v-if="recipe" class="form-grid" @submit.prevent="saveRecipe">
+    <PageLoadingOverlay v-if="loading" />
+
+    <form v-else-if="recipe" class="form-grid" @submit.prevent="saveRecipe">
       <label class="field">
         <span>菜名 <small>必填 · {{ name.length }}/{{ RECIPE_FIELD_LIMITS.name }}</small></span>
         <input v-model="name" data-test="recipe-name" :maxlength="RECIPE_FIELD_LIMITS.name" placeholder="例如：番茄炒蛋" />
@@ -194,10 +209,14 @@ onMounted(async () => {
         ]"
       />
 
-      <label class="toggle-line">
-        <input v-model="wantToMake" type="checkbox" />
-        <span>加入想做清单</span>
-      </label>
+      <SegmentedControl
+        v-model="wantToMakeChoice"
+        label="是否加入想做清单"
+        :options="[
+          { value: 'yes', label: '加入想做', testId: 'recipe-want-yes', tone: 'selected' },
+          { value: 'no', label: '暂时不加', testId: 'recipe-want-no', tone: 'neutral' },
+        ]"
+      />
 
       <p v-if="error" class="error-note">{{ error }}</p>
 
