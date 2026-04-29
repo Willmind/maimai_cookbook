@@ -38,6 +38,16 @@ Superpowers 入口：
 - Styling: CSS Modules 或普通 scoped CSS，先不引入大型 UI 库
 - Backend later: Supabase Postgres + Supabase Storage
 
+## Supabase Migration 规范
+
+- 数据库结构变更以仓库内 `supabase/migrations/` 的 SQL 文件为准。
+- 在 Supabase 后台执行 SQL 前，必须先在仓库新增或更新对应 migration 文件。
+- 已经在 Supabase 执行过的 migration 不回头修改；后续字段、索引、约束、策略变化都新增 migration 文件。
+- 用户可手动把 migration SQL 复制到 Supabase SQL Editor 执行；执行结果需要回填到对话或验收记录中。
+- 如果用户直接在 Supabase 后台改了表结构，需要补一个 migration 文件记录该变化，避免仓库和数据库分叉。
+- migration 文件命名使用时间戳前缀和简短说明，例如 `202604290001_initial_schema.sql`、`202605010001_add_recipe_difficulty.sql`。
+- 修改 schema 时，同步检查 TypeScript 类型、repository mapper、OpenSpec/tasks 和相关测试。
+
 ## UI 设计方向
 
 - 视觉气质：温暖纸质厨房手记。

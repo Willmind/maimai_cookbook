@@ -8,6 +8,10 @@
 
 后续所有 OpenSpec proposal、design、tasks、spec delta，以及 Superpowers plans/specs，默认使用中文撰写。除非用户明确要求英文，不要新增英文规划文档。
 
+## Database Migration Policy
+
+Supabase 数据库结构变更必须以仓库内 `supabase/migrations/` SQL 文件为准。已经执行过的 migration 不回头修改；后续字段、索引、约束或策略调整都新增 migration 文件。用户可以手动把 SQL 复制到 Supabase SQL Editor 执行，但执行前应先把 migration 写入仓库。若用户直接在 Supabase 后台改了表结构，需要补 migration 文件记录该变化，避免仓库和数据库分叉。
+
 ## Current Phase
 
 Build the first Vue3 MVP with local mock data. Supabase integration comes after core interactions are proven.

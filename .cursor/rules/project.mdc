@@ -42,6 +42,16 @@ alwaysApply: true
 - 先不要引入大型 UI 库。
 - 样式优先用 scoped CSS 或轻量 CSS 文件。
 
+## Supabase Migration 规则
+
+- 数据库结构变更以仓库内 `supabase/migrations/` 的 SQL 文件为准。
+- 在 Supabase 后台执行 SQL 前，必须先在仓库新增或更新对应 migration 文件。
+- 已经在 Supabase 执行过的 migration 不回头修改；后续字段、索引、约束、策略变化都新增 migration 文件。
+- 用户可以手动把 migration SQL 复制到 Supabase SQL Editor 执行；执行结果应回填到对话或验收记录中。
+- 如果用户直接在 Supabase 后台改了表结构，需要补一个 migration 文件记录该变化，避免仓库和数据库分叉。
+- migration 文件命名使用时间戳前缀和简短说明，例如 `202604290001_initial_schema.sql`、`202605010001_add_recipe_difficulty.sql`。
+- 修改 schema 时，同步检查 TypeScript 类型、repository mapper、OpenSpec/tasks 和相关测试。
+
 ## UI 设计方向
 
 - 整体气质是温暖纸质厨房手记，不是通用后台或 SaaS 模板。
