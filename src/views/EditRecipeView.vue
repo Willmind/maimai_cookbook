@@ -6,6 +6,7 @@ import SingleImageUpload, { type ImageUploadState } from '@/components/SingleIma
 import { recipeRepository } from '@/data/repositories'
 import { resolveDataSource } from '@/data/repositories/dataSource'
 import { deleteImage, getPublicImageUrl, uploadImage } from '@/data/supabase/imageStorage'
+import { RECIPE_FIELD_LIMITS } from '@/features/recipes/fieldLimits'
 import type { Recipe } from '@/types/recipe'
 
 const props = defineProps<{
@@ -123,18 +124,23 @@ onMounted(async () => {
 
     <form v-if="recipe" class="form-grid" @submit.prevent="saveRecipe">
       <label class="field">
-        <span>菜名 <small>必填</small></span>
-        <input v-model="name" data-test="recipe-name" placeholder="例如：番茄炒蛋" />
+        <span>菜名 <small>必填 · {{ name.length }}/{{ RECIPE_FIELD_LIMITS.name }}</small></span>
+        <input v-model="name" data-test="recipe-name" :maxlength="RECIPE_FIELD_LIMITS.name" placeholder="例如：番茄炒蛋" />
       </label>
 
       <label class="field">
-        <span>来源 / 灵感 <small>可选</small></span>
-        <input v-model="source" placeholder="妈妈的做法、收藏笔记、餐厅灵感..." />
+        <span>来源 / 灵感 <small>可选 · {{ source.length }}/{{ RECIPE_FIELD_LIMITS.source }}</small></span>
+        <input v-model="source" :maxlength="RECIPE_FIELD_LIMITS.source" placeholder="妈妈的做法、收藏笔记、餐厅灵感..." />
       </label>
 
       <label class="field">
-        <span>简介 <small>可选</small></span>
-        <textarea v-model="description" rows="3" placeholder="这道菜适合什么时候做？目标口味是什么？"></textarea>
+        <span>简介 <small>可选 · {{ description.length }}/{{ RECIPE_FIELD_LIMITS.description }}</small></span>
+        <textarea
+          v-model="description"
+          :maxlength="RECIPE_FIELD_LIMITS.description"
+          rows="3"
+          placeholder="这道菜适合什么时候做？目标口味是什么？"
+        ></textarea>
       </label>
 
       <SingleImageUpload
@@ -151,18 +157,28 @@ onMounted(async () => {
       />
 
       <label class="field">
-        <span>食材 <small>可选，每行一项</small></span>
-        <textarea v-model="ingredients" rows="4" placeholder="番茄 2 个&#10;鸡蛋 3 个"></textarea>
+        <span>食材 <small>可选，每行一项 · {{ ingredients.length }}/{{ RECIPE_FIELD_LIMITS.ingredients }}</small></span>
+        <textarea
+          v-model="ingredients"
+          :maxlength="RECIPE_FIELD_LIMITS.ingredients"
+          rows="4"
+          placeholder="番茄 2 个&#10;鸡蛋 3 个"
+        ></textarea>
       </label>
 
       <label class="field">
-        <span>做法 <small>可选</small></span>
-        <textarea v-model="method" rows="5" placeholder="写成自己下次看得懂的版本"></textarea>
+        <span>做法 <small>可选 · {{ method.length }}/{{ RECIPE_FIELD_LIMITS.method }}</small></span>
+        <textarea v-model="method" :maxlength="RECIPE_FIELD_LIMITS.method" rows="5" placeholder="写成自己下次看得懂的版本"></textarea>
       </label>
 
       <label class="field">
-        <span>小贴士 / 下次注意 <small>可选</small></span>
-        <textarea v-model="nextNote" rows="3" placeholder="下次想提醒自己的地方"></textarea>
+        <span>小贴士 / 下次注意 <small>可选 · {{ nextNote.length }}/{{ RECIPE_FIELD_LIMITS.nextNote }}</small></span>
+        <textarea
+          v-model="nextNote"
+          :maxlength="RECIPE_FIELD_LIMITS.nextNote"
+          rows="3"
+          placeholder="下次想提醒自己的地方"
+        ></textarea>
       </label>
 
       <label class="toggle-line">

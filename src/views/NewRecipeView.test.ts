@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { recipeRepository } from '@/data/repositories'
+import { RECIPE_FIELD_LIMITS } from '@/features/recipes/fieldLimits'
 
 import NewRecipeView from './NewRecipeView.vue'
 
@@ -77,5 +78,16 @@ describe('NewRecipeView', () => {
     const recipe = recipes.find((item) => item.name === '回锅肉')
 
     expect(recipe?.familiarity).toBe('done')
+  })
+
+  it('applies field max length limits', async () => {
+    const wrapper = mount(NewRecipeView)
+
+    expect(wrapper.get('[data-test="recipe-name"]').attributes('maxlength')).toBe(String(RECIPE_FIELD_LIMITS.name))
+    expect(wrapper.get('input[placeholder="妈妈的做法、收藏笔记、餐厅灵感..."]').attributes('maxlength')).toBe(String(RECIPE_FIELD_LIMITS.source))
+    expect(wrapper.get('textarea[placeholder="这道菜适合什么时候做？目标口味是什么？"]').attributes('maxlength')).toBe(
+      String(RECIPE_FIELD_LIMITS.description),
+    )
+    expect(wrapper.text()).toContain(`0/${RECIPE_FIELD_LIMITS.name}`)
   })
 })

@@ -2,6 +2,7 @@ import { flushPromises, mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { recipeRepository } from '@/data/repositories'
+import { RECIPE_FIELD_LIMITS } from '@/features/recipes/fieldLimits'
 
 import EditRecipeView from './EditRecipeView.vue'
 
@@ -36,5 +37,19 @@ describe('EditRecipeView', () => {
     const updated = await recipeRepository.getById('recipe-tomato-eggs')
     expect(updated?.name).toBe('番茄炒蛋（改）')
     expect(push).toHaveBeenCalledWith('/recipes/recipe-tomato-eggs')
+  })
+
+  it('applies max length limits on edit fields', async () => {
+    const wrapper = mount(EditRecipeView, {
+      props: {
+        id: 'recipe-tomato-eggs',
+      },
+    })
+
+    await flushPromises()
+
+    expect(wrapper.get('[data-test="recipe-name"]').attributes('maxlength')).toBe(String(RECIPE_FIELD_LIMITS.name))
+    expect(wrapper.get('input[placeholder="妈妈的做法、收藏笔记、餐厅灵感..."]').attributes('maxlength')).toBe(String(RECIPE_FIELD_LIMITS.source))
+    expect(wrapper.text()).toContain(`${'番茄炒蛋（改）'.length}/${RECIPE_FIELD_LIMITS.name}`)
   })
 })
