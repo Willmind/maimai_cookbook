@@ -5,6 +5,8 @@ import { useRouter } from 'vue-router'
 import SegmentedControl from '@/components/SegmentedControl.vue'
 import SingleImageUpload, { type ImageUploadState } from '@/components/SingleImageUpload.vue'
 import { cookingLogRepository, recipeRepository } from '@/data/repositories'
+import { resolveDataSource } from '@/data/repositories/dataSource'
+import { deleteImage, getPublicImageUrl, uploadImage } from '@/data/supabase/imageStorage'
 import type { Recipe } from '@/types/recipe'
 
 const props = defineProps<{
@@ -21,12 +23,34 @@ const changes = ref('')
 const nextNote = ref('')
 const photoState = ref<ImageUploadState>('empty')
 const photoFileName = ref('')
+const photoPath = ref<string>()
+const lastPhotoFile = ref<File>()
 
 const recipeName = computed(() => recipe.value?.name ?? '')
+const photoPreviewUrl = computed(() => getPublicImageUrl('cooking-log-photos', photoPath.value))
 
-const markPhotoUploaded = () => {
-  photoState.value = 'uploaded'
-  photoFileName.value = 'dish-demo.webp'
+const uploadPhoto = async (file?: File) => {
+  if (!file && resolveDataSource() === 'supabase') return
+
+  if (file) {
+    lastPhotoFile.value = file
+  }
+
+  const previousPath = photoPath.value
+  photoState.value = 'uploading'
+  photoFileName.value = file?.name ?? 'dish-demo.webp'
+
+  try {
+    const path = await uploadImage('cooking-log-photos', file, `cooking-logs/${props.id}`)
+    photoPath.value = path
+    photoState.value = 'uploaded'
+
+    if (previousPath && previousPath !== path) {
+      await deleteImage('cooking-log-photos', previousPath)
+    }
+  } catch {
+    photoState.value = 'failed'
+  }
 }
 
 const markPhotoFailed = () => {
@@ -34,13 +58,15 @@ const markPhotoFailed = () => {
   photoFileName.value = 'dish-demo.webp'
 }
 
-const clearPhoto = () => {
+const clearPhoto = async () => {
+  await deleteImage('cooking-log-photos', photoPath.value)
   photoState.value = 'empty'
   photoFileName.value = ''
+  photoPath.value = undefined
 }
 
 const savedPhotoPath = () => {
-  return photoState.value === 'uploaded' ? 'mock/dish-demo.webp' : undefined
+  return photoState.value === 'uploaded' ? photoPath.value : undefined
 }
 
 const saveLog = async () => {
@@ -97,11 +123,12 @@ onMounted(async () => {
         label="成品照片"
         :state="photoState"
         :file-name="photoFileName"
+        :preview-url="photoPreviewUrl"
         :progress="64"
-        @choose="markPhotoUploaded"
-        @replace="markPhotoUploaded"
+        @choose="uploadPhoto"
+        @replace="uploadPhoto"
         @delete="clearPhoto"
-        @retry="markPhotoUploaded"
+        @retry="uploadPhoto(lastPhotoFile)"
         @remove="clearPhoto"
       />
 

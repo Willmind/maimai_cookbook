@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
 import { cookingLogRepository, recipeRepository } from '@/data/repositories'
+import { getPublicImageUrl } from '@/data/supabase/imageStorage'
 import type { CookingLog } from '@/types/cooking-log'
 import type { Recipe } from '@/types/recipe'
 
@@ -14,6 +15,7 @@ const recipe = ref<Recipe>()
 const cookingLogs = ref<CookingLog[]>([])
 
 const sortedLogs = computed(() => [...cookingLogs.value].sort((a, b) => b.cookedAt.localeCompare(a.cookedAt)))
+const coverImageUrl = computed(() => getPublicImageUrl('recipe-covers', recipe.value?.coverImagePath))
 
 const familiarityLabel = computed(() => {
   if (recipe.value?.familiarity === 'frequent') return '常做'
@@ -49,7 +51,9 @@ onMounted(async () => {
 <template>
   <section v-if="recipe" class="detail-page">
     <div class="screen detail-hero">
-      <div class="hero-photo"></div>
+      <div class="hero-photo" :class="{ 'has-image': coverImageUrl }">
+        <img v-if="coverImageUrl" :src="coverImageUrl" alt="" />
+      </div>
       <div class="detail-copy">
         <p class="eyebrow">菜谱档案</p>
         <h1>{{ recipe.name }}</h1>
@@ -95,7 +99,9 @@ onMounted(async () => {
       <div class="timeline">
         <article v-for="log in sortedLogs" :key="log.id" class="timeline-card">
           <div class="timeline-entry" :class="{ 'has-photo': log.photoPath }">
-            <div v-if="log.photoPath" class="timeline-photo"></div>
+            <div v-if="log.photoPath" class="timeline-photo">
+              <img v-if="getPublicImageUrl('cooking-log-photos', log.photoPath)" :src="getPublicImageUrl('cooking-log-photos', log.photoPath)" alt="" />
+            </div>
             <div>
               <div class="timeline-top">
                 <span>{{ log.cookedAt }}</span>

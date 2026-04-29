@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
 import { cookingLogRepository, recipeRepository } from '@/data/repositories'
+import { getPublicImageUrl } from '@/data/supabase/imageStorage'
 import { searchCookbook } from '@/features/search/search'
 import type { CookingLog } from '@/types/cooking-log'
 import type { Recipe } from '@/types/recipe'
@@ -31,6 +32,8 @@ const searchResult = computed(() => searchCookbook(searchKeyword.value, recipes.
 const hasSearchKeyword = computed(() => searchKeyword.value.trim().length > 0)
 
 const recipeName = (recipeId: string) => recipeNameById.value.get(recipeId) ?? '未知菜谱'
+const recipeCoverUrl = (recipe: Recipe) => getPublicImageUrl('recipe-covers', recipe.coverImagePath)
+const cookingPhotoUrl = (log: CookingLog) => getPublicImageUrl('cooking-log-photos', log.photoPath)
 
 onMounted(async () => {
   const [recipeList, logList] = await Promise.all([recipeRepository.list(), cookingLogRepository.list()])
@@ -66,7 +69,9 @@ onMounted(async () => {
               class="recipe-card"
               :to="`/recipes/${recipe.id}`"
             >
-              <div class="photo-frame"></div>
+              <div class="photo-frame" :class="{ 'has-image': recipeCoverUrl(recipe) }">
+                <img v-if="recipeCoverUrl(recipe)" :src="recipeCoverUrl(recipe)" alt="" />
+              </div>
               <div>
                 <h3>{{ recipe.name }}</h3>
                 <p class="muted">{{ recipe.description ?? recipe.nextNote ?? '还没有补充说明。' }}</p>
@@ -87,7 +92,9 @@ onMounted(async () => {
               class="recipe-card"
               :to="`/recipes/${log.recipeId}`"
             >
-              <div class="photo-frame" :class="{ 'has-photo': log.photoPath }"></div>
+              <div class="photo-frame" :class="{ 'has-image': cookingPhotoUrl(log) }">
+                <img v-if="cookingPhotoUrl(log)" :src="cookingPhotoUrl(log)" alt="" />
+              </div>
               <div>
                 <h3>{{ recipeName(log.recipeId) }}</h3>
                 <p class="muted">{{ log.cookedAt }} · {{ log.note }}</p>
@@ -118,7 +125,9 @@ onMounted(async () => {
             class="recipe-card"
             :to="`/recipes/${log.recipeId}`"
           >
-            <div class="photo-frame" :class="{ 'has-photo': log.photoPath }"></div>
+            <div class="photo-frame" :class="{ 'has-image': cookingPhotoUrl(log) }">
+              <img v-if="cookingPhotoUrl(log)" :src="cookingPhotoUrl(log)" alt="" />
+            </div>
             <div>
               <h3>{{ log.recipeName }}</h3>
               <p class="muted">{{ log.cookedAt }} · {{ log.note }}</p>
@@ -147,7 +156,9 @@ onMounted(async () => {
             class="recipe-card"
             :to="`/recipes/${recipe.id}`"
           >
-            <div class="photo-frame"></div>
+            <div class="photo-frame" :class="{ 'has-image': recipeCoverUrl(recipe) }">
+              <img v-if="recipeCoverUrl(recipe)" :src="recipeCoverUrl(recipe)" alt="" />
+            </div>
             <div>
               <h3>{{ recipe.name }}</h3>
               <p class="muted">{{ recipe.description ?? recipe.nextNote ?? '还没补充说明，先把它收进想做。' }}</p>

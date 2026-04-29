@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
 import { recipeRepository } from '@/data/repositories'
+import { getPublicImageUrl } from '@/data/supabase/imageStorage'
 import { filterRecipes, searchCookbook, type RecipeFilter } from '@/features/search/search'
 import type { Recipe } from '@/types/recipe'
 
@@ -31,6 +32,8 @@ const familiarityLabel = (recipe: Recipe) => {
   if (recipe.familiarity === 'done') return '做过'
   return '没做过'
 }
+
+const recipeCoverUrl = (recipe: Recipe) => getPublicImageUrl('recipe-covers', recipe.coverImagePath)
 
 onMounted(async () => {
   recipes.value = await recipeRepository.list()
@@ -65,7 +68,9 @@ onMounted(async () => {
 
     <div class="card-list recipe-directory">
       <RouterLink v-for="recipe in visibleRecipes" :key="recipe.id" class="recipe-card" :to="`/recipes/${recipe.id}`">
-        <div class="photo-frame"></div>
+        <div class="photo-frame" :class="{ 'has-image': recipeCoverUrl(recipe) }">
+          <img v-if="recipeCoverUrl(recipe)" :src="recipeCoverUrl(recipe)" alt="" />
+        </div>
         <div>
           <h3>{{ recipe.name }}</h3>
           <p class="muted">

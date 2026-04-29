@@ -11,16 +11,28 @@
 
 当前阶段不限制文件大小和 MIME type，沿用 Supabase 默认设置。后续如果需要收紧上传规则，应新增文档更新和对应实现任务。
 
+## RLS Policies
+
+public bucket 只解决“公开读取”问题；上传、替换和删除仍需要 `storage.objects` 的 RLS policy。
+
+已新增 migration：
+
+- `supabase/migrations/202604290002_storage_policies.sql`
+
+该 migration 允许 `anon` 角色对 `recipe-covers` 和 `cooking-log-photos` 里的对象执行 select、insert、update、delete。当前阶段这是无登录个人 MVP 的取舍；公网部署前应改为 Auth/RLS 限制。
+
 ## 路径规则
 
 第一版只支持单图，但仍使用稳定路径规则，避免不同文件互相覆盖。
 
-建议路径：
+当前路径：
 
-- 菜谱封面：`recipes/{recipeId}/{timestamp}-{safeFileName}`
-- 做饭记录照片：`cooking-logs/{logId}/{timestamp}-{safeFileName}`
+- 菜谱封面：`recipes/draft/{timestamp}-{safeFileName}`
+- 做饭记录照片：`cooking-logs/{recipeId}/{timestamp}-{safeFileName}`
 
 `safeFileName` 由前端在上传前生成，避免空格、中文标点或特殊字符造成 URL 问题。
+
+说明：新建菜谱时还没有 `recipeId`，所以第一版先使用 `recipes/draft/`。如果后续增加编辑页或更完整的图片管理，可以新增 migration/任务，把封面文件迁移或重传到 `recipes/{recipeId}/`。
 
 ## Public Bucket 取舍
 
@@ -36,4 +48,3 @@
 - 不适合作为公网多用户产品的最终安全方案。
 
 如果未来要公开部署，应重新设计 Auth、RLS、Storage policy，并考虑改为私有 bucket + signed URL。
-

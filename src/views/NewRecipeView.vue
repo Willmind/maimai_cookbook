@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 import SingleImageUpload, { type ImageUploadState } from '@/components/SingleImageUpload.vue'
 import { recipeRepository } from '@/data/repositories'
+import { resolveDataSource } from '@/data/repositories/dataSource'
+import { deleteImage, getPublicImageUrl, uploadImage } from '@/data/supabase/imageStorage'
 
 const router = useRouter()
 
@@ -17,10 +19,33 @@ const wantToMake = ref(true)
 const error = ref('')
 const coverImageState = ref<ImageUploadState>('empty')
 const coverImageFileName = ref('')
+const coverImagePath = ref<string>()
+const lastCoverFile = ref<File>()
 
-const markCoverUploaded = () => {
-  coverImageState.value = 'uploaded'
-  coverImageFileName.value = 'cover-demo.webp'
+const coverImagePreviewUrl = computed(() => getPublicImageUrl('recipe-covers', coverImagePath.value))
+
+const uploadCoverImage = async (file?: File) => {
+  if (!file && resolveDataSource() === 'supabase') return
+
+  if (file) {
+    lastCoverFile.value = file
+  }
+
+  const previousPath = coverImagePath.value
+  coverImageState.value = 'uploading'
+  coverImageFileName.value = file?.name ?? 'cover-demo.webp'
+
+  try {
+    const path = await uploadImage('recipe-covers', file, 'recipes/draft')
+    coverImagePath.value = path
+    coverImageState.value = 'uploaded'
+
+    if (previousPath && previousPath !== path) {
+      await deleteImage('recipe-covers', previousPath)
+    }
+  } catch {
+    coverImageState.value = 'failed'
+  }
 }
 
 const markCoverFailed = () => {
@@ -28,13 +53,15 @@ const markCoverFailed = () => {
   coverImageFileName.value = 'cover-demo.webp'
 }
 
-const clearCoverImage = () => {
+const clearCoverImage = async () => {
+  await deleteImage('recipe-covers', coverImagePath.value)
   coverImageState.value = 'empty'
   coverImageFileName.value = ''
+  coverImagePath.value = undefined
 }
 
 const savedCoverImagePath = () => {
-  return coverImageState.value === 'uploaded' ? 'mock/cover-demo.webp' : undefined
+  return coverImageState.value === 'uploaded' ? coverImagePath.value : undefined
 }
 
 const saveRecipe = async () => {
@@ -89,11 +116,12 @@ const saveRecipe = async () => {
         label="封面图"
         :state="coverImageState"
         :file-name="coverImageFileName"
+        :preview-url="coverImagePreviewUrl"
         :progress="64"
-        @choose="markCoverUploaded"
-        @replace="markCoverUploaded"
+        @choose="uploadCoverImage"
+        @replace="uploadCoverImage"
         @delete="clearCoverImage"
-        @retry="markCoverUploaded"
+        @retry="uploadCoverImage(lastCoverFile)"
         @remove="clearCoverImage"
       />
 

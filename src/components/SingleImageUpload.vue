@@ -1,35 +1,76 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+
 import iconDeleteUrl from '@/assets/icons/icon-delete.svg?url'
 import iconRetryUrl from '@/assets/icons/icon-24pt-refresh.svg?url'
 import iconRefreshUrl from '@/assets/icons/icon-refresh.svg?url'
 
 export type ImageUploadState = 'empty' | 'uploading' | 'uploaded' | 'failed'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     label: string
     state?: ImageUploadState
     fileName?: string
     progress?: number
+    previewUrl?: string
   }>(),
   {
     state: 'empty',
     fileName: '',
     progress: 0,
+    previewUrl: '',
   },
 )
 
-defineEmits<{
-  choose: []
-  replace: []
+const emit = defineEmits<{
+  choose: [file?: File]
+  replace: [file?: File]
   delete: []
   retry: []
   remove: []
 }>()
+
+const fileInput = ref<HTMLInputElement>()
+const pendingAction = ref<'choose' | 'replace'>('choose')
+
+const openFilePicker = (action: 'choose' | 'replace') => {
+  pendingAction.value = action
+  if (action === 'choose') {
+    emit('choose')
+  } else {
+    emit('replace')
+  }
+  fileInput.value?.click()
+}
+
+const emitSelectedFile = (event: Event) => {
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0]
+
+  if (file) {
+    if (pendingAction.value === 'choose') {
+      emit('choose', file)
+    } else {
+      emit('replace', file)
+    }
+  }
+
+  input.value = ''
+}
 </script>
 
 <template>
   <div class="upload-field">
+    <input
+      ref="fileInput"
+      data-test="image-input"
+      class="sr-only"
+      type="file"
+      accept="image/*"
+      @change="emitSelectedFile"
+    />
+
     <div class="field-label">
       <span>{{ label }}</span>
       <small>可选，最多 1 张</small>
@@ -42,13 +83,15 @@ defineEmits<{
         class="polaroid-main"
         type="button"
         aria-label="添加照片"
-        @click="$emit('choose')"
+        @click="openFilePicker('choose')"
       >
         <span class="polaroid-plus" aria-hidden="true">＋</span>
       </button>
 
       <div v-else class="polaroid-main" aria-label="照片预览">
-        <div class="polaroid-photo" :class="{ 'has-image': state === 'uploaded' }"></div>
+        <div class="polaroid-photo" :class="{ 'has-image': state === 'uploaded' }">
+          <img v-if="props.previewUrl && state === 'uploaded'" :src="props.previewUrl" alt="" />
+        </div>
 
         <div
           v-if="state === 'uploading'"
@@ -96,7 +139,7 @@ defineEmits<{
             type="button"
             aria-label="更换照片"
             title="更换"
-            @click="$emit('replace')"
+            @click="openFilePicker('replace')"
           >
             <img :src="iconRefreshUrl" alt="" draggable="false" />
           </button>
@@ -115,4 +158,3 @@ defineEmits<{
     </div>
   </div>
 </template>
-
