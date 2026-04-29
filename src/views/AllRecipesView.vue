@@ -65,9 +65,9 @@ onMounted(async () => {
         <div class="photo-frame" :class="{ 'has-image': recipeCoverUrl(recipe) }">
           <img v-if="recipeCoverUrl(recipe)" :src="recipeCoverUrl(recipe)" alt="" />
         </div>
-        <div>
-          <h3>{{ recipe.name }}</h3>
-          <p class="muted">{{ recipe.description ?? '还没有简介。' }}</p>
+        <div class="recipe-card-copy">
+          <h3 class="recipe-title">{{ recipe.name }}</h3>
+          <p v-if="recipe.description" class="muted recipe-summary">{{ recipe.description }}</p>
         </div>
       </RouterLink>
     </div>
