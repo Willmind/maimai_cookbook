@@ -92,6 +92,18 @@ a {
   text-decoration: none;
 }
 
+/* Mobile tap highlight (iOS Safari) */
+a,
+button,
+.primary-action,
+.secondary-action,
+.recipe-card,
+.timeline-card,
+.filter-chip,
+.segmented-item {
+  -webkit-tap-highlight-color: transparent;
+}
+
 .app-shell {
   max-width: 1180px;
   margin: 0 auto;
