@@ -4,6 +4,10 @@
 
 麦麦手记 helps one person keep a practical kitchen notebook: recipes they want to make, recipes they already know, and cooking logs that capture what happened each time they cooked.
 
+## Documentation Language
+
+后续所有 OpenSpec proposal、design、tasks、spec delta，以及 Superpowers plans/specs，默认使用中文撰写。除非用户明确要求英文，不要新增英文规划文档。
+
 ## Current Phase
 
 Build the first Vue3 MVP with local mock data. Supabase integration comes after core interactions are proven.
@@ -34,4 +38,3 @@ Build the first Vue3 MVP with local mock data. Supabase integration comes after 
 - Public sharing.
 - Multi-user collaboration.
 - Meal planning and shopping list.
-

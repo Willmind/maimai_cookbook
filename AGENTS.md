@@ -21,6 +21,7 @@ Superpowers 入口：
 ## 工作方式
 
 - 先确认需求和规格，再写代码。
+- 后续所有 Superpowers plans/specs、OpenSpec proposal/design/tasks/spec delta 默认使用中文撰写；除非用户明确要求英文，不要新增英文规划文档。
 - 产品范围以 `docs/product-mvp.md` 和 `openspec/specs/maimai-cookbook/spec.md` 为准。
 - 每次新增功能优先创建 OpenSpec change，包含 `proposal.md`、`design.md`、`tasks.md` 和 spec delta。
 - 实施前优先使用 Superpowers 计划，按小任务推进。
