@@ -63,7 +63,6 @@ onMounted(async () => {
         <div class="detail-actions">
           <RouterLink class="primary-action" :to="`/recipes/${recipe.id}/logs/new`">记一次</RouterLink>
           <RouterLink class="secondary-action" :to="`/recipes/${recipe.id}/edit`">编辑菜谱</RouterLink>
-          <button class="secondary-action" type="button">{{ recipe.wantToMake ? '已想做' : '加入想做' }}</button>
         </div>
 
         <div class="tags">
