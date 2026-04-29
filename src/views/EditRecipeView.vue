@@ -2,12 +2,13 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
+import SegmentedControl from '@/components/SegmentedControl.vue'
 import SingleImageUpload, { type ImageUploadState } from '@/components/SingleImageUpload.vue'
 import { recipeRepository } from '@/data/repositories'
 import { resolveDataSource } from '@/data/repositories/dataSource'
 import { deleteImage, getPublicImageUrl, uploadImage } from '@/data/supabase/imageStorage'
 import { RECIPE_FIELD_LIMITS } from '@/features/recipes/fieldLimits'
-import type { Recipe } from '@/types/recipe'
+import type { Recipe, RecipeFamiliarity } from '@/types/recipe'
 
 const props = defineProps<{
   id: string
@@ -22,6 +23,7 @@ const description = ref('')
 const ingredients = ref('')
 const method = ref('')
 const nextNote = ref('')
+const familiarity = ref<RecipeFamiliarity>('new')
 const wantToMake = ref(true)
 const error = ref('')
 const coverImageState = ref<ImageUploadState>('empty')
@@ -39,6 +41,7 @@ const applyRecipe = (value: Recipe) => {
   ingredients.value = value.ingredients ?? ''
   method.value = value.method ?? ''
   nextNote.value = value.nextNote ?? ''
+  familiarity.value = value.familiarity
   wantToMake.value = value.wantToMake
   coverImagePath.value = value.coverImagePath
   coverImageState.value = value.coverImagePath ? 'uploaded' : 'empty'
@@ -98,7 +101,7 @@ const saveRecipe = async () => {
     method: method.value || undefined,
     nextNote: nextNote.value || undefined,
     wantToMake: wantToMake.value,
-    familiarity: recipe.value.familiarity,
+    familiarity: familiarity.value,
     tags: recipe.value.tags,
   })
 
@@ -180,6 +183,16 @@ onMounted(async () => {
           placeholder="下次想提醒自己的地方"
         ></textarea>
       </label>
+
+      <SegmentedControl
+        v-model="familiarity"
+        label="熟悉度"
+        :options="[
+          { value: 'new', label: '没做过', testId: 'recipe-familiarity-new', tone: 'neutral' },
+          { value: 'done', label: '做过', testId: 'recipe-familiarity-done', tone: 'warning' },
+          { value: 'frequent', label: '常做', testId: 'recipe-familiarity-frequent', tone: 'success' },
+        ]"
+      />
 
       <label class="toggle-line">
         <input v-model="wantToMake" type="checkbox" />
