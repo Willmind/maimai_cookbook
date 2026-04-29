@@ -2,10 +2,12 @@
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
+import SegmentedControl from '@/components/SegmentedControl.vue'
 import SingleImageUpload, { type ImageUploadState } from '@/components/SingleImageUpload.vue'
 import { recipeRepository } from '@/data/repositories'
 import { resolveDataSource } from '@/data/repositories/dataSource'
 import { deleteImage, getPublicImageUrl, uploadImage } from '@/data/supabase/imageStorage'
+import type { RecipeFamiliarity } from '@/types/recipe'
 
 const router = useRouter()
 
@@ -15,6 +17,7 @@ const description = ref('')
 const ingredients = ref('')
 const method = ref('')
 const nextNote = ref('')
+const familiarity = ref<RecipeFamiliarity>('new')
 const wantToMake = ref(true)
 const error = ref('')
 const coverImageState = ref<ImageUploadState>('empty')
@@ -80,6 +83,7 @@ const saveRecipe = async () => {
     ingredients: ingredients.value || undefined,
     method: method.value || undefined,
     nextNote: nextNote.value || undefined,
+    familiarity: familiarity.value,
     wantToMake: wantToMake.value,
   })
 
@@ -141,6 +145,16 @@ const saveRecipe = async () => {
         <span>小贴士 / 下次注意 <small>可选</small></span>
         <textarea v-model="nextNote" rows="3" placeholder="下次想提醒自己的地方"></textarea>
       </label>
+
+      <SegmentedControl
+        v-model="familiarity"
+        label="熟悉度"
+        :options="[
+          { value: 'new', label: '没做过', testId: 'recipe-familiarity-new', tone: 'neutral' },
+          { value: 'done', label: '做过', testId: 'recipe-familiarity-done', tone: 'warning' },
+          { value: 'frequent', label: '常做', testId: 'recipe-familiarity-frequent', tone: 'success' },
+        ]"
+      />
 
       <label class="toggle-line">
         <input v-model="wantToMake" type="checkbox" />

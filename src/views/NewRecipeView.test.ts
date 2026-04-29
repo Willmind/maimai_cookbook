@@ -65,4 +65,17 @@ describe('NewRecipeView', () => {
 
     expect(recipe?.coverImagePath).toBe('mock/cover-demo.webp')
   })
+
+  it('creates recipe with selected familiarity', async () => {
+    const wrapper = mount(NewRecipeView)
+
+    await wrapper.get('[data-test="recipe-name"]').setValue('回锅肉')
+    await wrapper.get('[data-test="recipe-familiarity-done"]').trigger('click')
+    await wrapper.get('form').trigger('submit.prevent')
+
+    const recipes = await recipeRepository.list()
+    const recipe = recipes.find((item) => item.name === '回锅肉')
+
+    expect(recipe?.familiarity).toBe('done')
+  })
 })
