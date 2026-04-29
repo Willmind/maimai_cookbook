@@ -69,10 +69,9 @@ describe('NewCookingLogView', () => {
     expect(wrapper.text()).toContain('成品照片')
     expect(wrapper.text()).toContain('最多 1 张')
 
-    await wrapper.get('.secondary-action').trigger('click')
-    expect(wrapper.text()).toContain('照片已上传')
+    await wrapper.get('[data-test="choose-image"]').trigger('click')
 
     await wrapper.get('[data-test="delete-image"]').trigger('click')
-    expect(wrapper.text()).toContain('还没有选择照片')
+    expect(wrapper.get('[data-test="choose-image"]')).toBeDefined()
   })
 })

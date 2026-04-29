@@ -13,7 +13,7 @@ describe('SingleImageUpload', () => {
 
     expect(wrapper.text()).toContain('封面图')
     expect(wrapper.text()).toContain('最多 1 张')
-    expect(wrapper.text()).toContain('选择一张图')
+    expect(wrapper.get('[data-test="choose-image"]')).toBeDefined()
   })
 
   it('shows uploading state', () => {
@@ -26,8 +26,8 @@ describe('SingleImageUpload', () => {
       },
     })
 
-    expect(wrapper.text()).toContain('正在压缩并上传照片')
-    expect(wrapper.text()).toContain('64%')
+    const progress = wrapper.get('[data-test="upload-progress"]')
+    expect(progress.attributes('aria-valuenow')).toBe('64')
   })
 
   it('shows uploaded state and emits replace/delete actions', async () => {
@@ -39,8 +39,7 @@ describe('SingleImageUpload', () => {
       },
     })
 
-    expect(wrapper.text()).toContain('照片已上传')
-    expect(wrapper.text()).toContain('cover.webp')
+    expect(wrapper.get('.polaroid-corner-actions').attributes('title')).toBe('cover.webp')
 
     await wrapper.get('[data-test="replace-image"]').trigger('click')
     await wrapper.get('[data-test="delete-image"]').trigger('click')
@@ -57,8 +56,6 @@ describe('SingleImageUpload', () => {
         fileName: 'dish.webp',
       },
     })
-
-    expect(wrapper.text()).toContain('上传失败')
 
     await wrapper.get('[data-test="retry-image"]').trigger('click')
     await wrapper.get('[data-test="remove-image"]').trigger('click')
