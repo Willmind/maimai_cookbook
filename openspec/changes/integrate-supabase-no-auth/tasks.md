@@ -40,11 +40,11 @@
 
 ## 6. Verification
 
-- [ ] 运行 `openspec validate --all`。
-- [ ] 运行 `npm test`。
-- [ ] 运行 `npm run build`。
-- [ ] 验证 mock 模式仍可用。
-- [ ] 验证 Supabase 模式可以创建和查看菜谱。
-- [ ] 验证 Supabase 模式可以创建和查看做饭记录。
-- [ ] 验证菜谱封面上传、更换、删除。
-- [ ] 验证做饭记录照片上传、更换、删除。
+- [x] 运行 `openspec validate --all`。
+- [x] 运行 `npm test`。
+- [x] 运行 `npm run build`。
+- [x] 验证 mock 模式仍可用。
+- [x] 验证 Supabase 模式可以创建和查看菜谱。
+- [x] 验证 Supabase 模式可以创建和查看做饭记录。
+- [x] 验证菜谱封面上传、更换、删除。
+- [x] 验证做饭记录照片上传、更换、删除。
