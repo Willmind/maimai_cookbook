@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import iconDeleteUrl from '@/assets/icons/icon-delete.svg?url'
+import iconRetryUrl from '@/assets/icons/icon-24pt-refresh.svg?url'
 import iconRefreshUrl from '@/assets/icons/icon-refresh.svg?url'
 
 export type ImageUploadState = 'empty' | 'uploading' | 'uploaded' | 'failed'
@@ -64,8 +65,28 @@ defineEmits<{
         </div>
 
         <div v-else-if="state === 'failed'" class="polaroid-failed">
-          <button data-test="retry-image" class="secondary-action small-action" type="button" @click="$emit('retry')">重试</button>
-          <button data-test="remove-image" class="secondary-action small-action" type="button" @click="$emit('remove')">移除</button>
+          <div class="polaroid-failed-actions">
+            <button
+              data-test="retry-image"
+              class="icon-button"
+              type="button"
+              aria-label="重试上传"
+              title="重试"
+              @click="$emit('retry')"
+            >
+              <img :src="iconRetryUrl" alt="" draggable="false" />
+            </button>
+            <button
+              data-test="remove-image"
+              class="icon-button"
+              type="button"
+              aria-label="移除照片"
+              title="移除"
+              @click="$emit('remove')"
+            >
+              <img :src="iconDeleteUrl" alt="" draggable="false" />
+            </button>
+          </div>
         </div>
 
         <div v-else class="polaroid-corner-actions" :title="fileName || ''" :aria-label="fileName || ''">
