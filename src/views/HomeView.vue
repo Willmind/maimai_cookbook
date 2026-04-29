@@ -98,9 +98,6 @@ onMounted(async () => {
               <div>
                 <h3>{{ recipeName(log.recipeId) }}</h3>
                 <p class="muted">{{ log.cookedAt }} · {{ log.note }}</p>
-                <div class="tags">
-                  <span v-if="log.nextNote" class="tag">下次：{{ log.nextNote }}</span>
-                </div>
               </div>
             </RouterLink>
           </div>
@@ -133,7 +130,7 @@ onMounted(async () => {
               <p class="muted">{{ log.cookedAt }} · {{ log.note }}</p>
               <div class="tags">
                 <span v-if="log.result" class="tag">{{ log.result === 'good' ? '好吃' : log.result === 'ok' ? '一般' : '翻车' }}</span>
-                <span v-if="log.nextNote" class="tag">下次：{{ log.nextNote }}</span>
+                <!-- <span v-if="log.nextNote" class="tag">下次：{{ log.nextNote }}</span> -->
               </div>
             </div>
           </RouterLink>
@@ -162,10 +159,10 @@ onMounted(async () => {
             <div>
               <h3>{{ recipe.name }}</h3>
               <p class="muted">{{ recipe.description ?? recipe.nextNote ?? '还没补充说明，先把它收进想做。' }}</p>
-              <div class="tags">
+              <!-- <div class="tags">
                 <span class="tag">想做</span>
                 <span v-for="tag in recipe.tags" :key="tag" class="tag">{{ tag }}</span>
-              </div>
+              </div> -->
             </div>
           </RouterLink>
         </div>
