@@ -22,7 +22,11 @@ const showNewRecipeButton = computed(() => route.name !== 'new-recipe')
       </nav>
     </header>
 
-    <RouterView />
+    <RouterView v-slot="{ Component }">
+      <Transition name="page-fade" mode="out-in">
+        <component :is="Component" />
+      </Transition>
+    </RouterView>
   </main>
 </template>
 

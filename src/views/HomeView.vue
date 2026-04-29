@@ -2,12 +2,14 @@
 import { computed, onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
+import PageLoadingOverlay from '@/components/PageLoadingOverlay.vue'
 import { cookingLogRepository, recipeRepository } from '@/data/repositories'
 import { getPublicImageUrl } from '@/data/supabase/imageStorage'
 import { searchCookbook } from '@/features/search/search'
 import type { CookingLog } from '@/types/cooking-log'
 import type { Recipe } from '@/types/recipe'
 
+const loading = ref(true)
 const recipes = ref<Recipe[]>([])
 const cookingLogs = ref<CookingLog[]>([])
 const searchKeyword = ref('')
@@ -36,14 +38,22 @@ const recipeCoverUrl = (recipe: Recipe) => getPublicImageUrl('recipe-covers', re
 const cookingPhotoUrl = (log: CookingLog) => getPublicImageUrl('cooking-log-photos', log.photoPath)
 
 onMounted(async () => {
-  const [recipeList, logList] = await Promise.all([recipeRepository.list(), cookingLogRepository.list()])
-  recipes.value = recipeList
-  cookingLogs.value = logList
+  try {
+    const [recipeList, logList] = await Promise.all([recipeRepository.list(), cookingLogRepository.list()])
+    recipes.value = recipeList
+    cookingLogs.value = logList
+  } finally {
+    loading.value = false
+  }
 })
 </script>
 
 <template>
-  <section class="home-layout">
+  <section v-if="loading" class="screen">
+    <PageLoadingOverlay />
+  </section>
+
+  <section v-else class="home-layout">
     <div class="screen hero-card">
       <p class="eyebrow">我的厨房笔记</p>
       <h1>今天想找哪道菜？</h1>

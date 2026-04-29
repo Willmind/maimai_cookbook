@@ -2,11 +2,13 @@
 import { computed, onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
+import PageLoadingOverlay from '@/components/PageLoadingOverlay.vue'
 import { recipeRepository } from '@/data/repositories'
 import { getPublicImageUrl } from '@/data/supabase/imageStorage'
 import { filterRecipes, searchCookbook, type RecipeFilter } from '@/features/search/search'
 import type { Recipe } from '@/types/recipe'
 
+const loading = ref(true)
 const recipes = ref<Recipe[]>([])
 const searchKeyword = ref('')
 const activeFilter = ref<RecipeFilter>('all')
@@ -30,12 +32,20 @@ const visibleRecipes = computed(() => {
 const recipeCoverUrl = (recipe: Recipe) => getPublicImageUrl('recipe-covers', recipe.coverImagePath)
 
 onMounted(async () => {
-  recipes.value = await recipeRepository.list()
+  try {
+    recipes.value = await recipeRepository.list()
+  } finally {
+    loading.value = false
+  }
 })
 </script>
 
 <template>
-  <section class="screen">
+  <section v-if="loading" class="screen">
+    <PageLoadingOverlay />
+  </section>
+
+  <section v-else class="screen">
     <div class="section-head">
       <div>
         <p class="eyebrow">菜谱目录</p>
