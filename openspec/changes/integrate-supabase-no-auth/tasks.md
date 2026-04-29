@@ -2,11 +2,11 @@
 
 ## 1. Supabase Schema
 
-- [ ] 创建 `recipes` SQL migration。
-- [ ] 创建 `cooking_logs` SQL migration。
-- [ ] 为菜谱熟悉度和做饭结果增加枚举 check constraint。
-- [ ] 为 `recipes.updated_at` 增加自动更新时间处理。
-- [ ] 记录无登录/RLS 假设：当前仅用于个人本地 MVP。
+- [x] 创建 `recipes` SQL migration。
+- [x] 创建 `cooking_logs` SQL migration。
+- [x] 为菜谱熟悉度和做饭结果增加枚举 check constraint。
+- [x] 为 `recipes.updated_at` 增加自动更新时间处理。
+- [x] 记录无登录/RLS 假设：当前仅用于个人本地 MVP。
 
 ## 2. Supabase Storage
 
