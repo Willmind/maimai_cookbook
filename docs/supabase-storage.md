@@ -34,6 +34,16 @@ public bucket 只解决“公开读取”问题；上传、替换和删除仍需
 
 说明：新建菜谱时还没有 `recipeId`，所以第一版先使用 `recipes/draft/`。如果后续增加编辑页或更完整的图片管理，可以新增 migration/任务，把封面文件迁移或重传到 `recipes/{recipeId}/`。
 
+## 上传前压缩
+
+前端上传前会尝试压缩图片：
+
+- 最长边限制为 `1600px`。
+- 输出格式为 `image/jpeg`。
+- JPEG quality 为 `0.82`。
+- 压缩后的文件名统一使用 `.jpg`。
+- 如果浏览器压缩失败，会回退上传原图，避免阻断记录流程。
+
 ## Public Bucket 取舍
 
 当前应用不做登录，是个人 MVP。public bucket 的好处是：

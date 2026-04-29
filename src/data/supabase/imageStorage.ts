@@ -1,6 +1,7 @@
 import { resolveDataSource } from '@/data/repositories/dataSource'
 
 import { getSupabaseClient } from './client'
+import { compressImageFile } from './imageCompression'
 
 export type ImageBucket = 'recipe-covers' | 'cooking-log-photos'
 
@@ -31,10 +32,12 @@ export async function uploadImage(bucket: ImageBucket, file: File | undefined, p
     throw new Error('请选择一张图片后再上传。')
   }
 
-  const path = buildImagePath(pathPrefix, file.name)
-  const { error } = await getSupabaseClient().storage.from(bucket).upload(path, file, {
+  const uploadFile = await compressImageFile(file)
+  const path = buildImagePath(pathPrefix, uploadFile.name)
+  const { error } = await getSupabaseClient().storage.from(bucket).upload(path, uploadFile, {
     cacheControl: '3600',
     upsert: false,
+    contentType: uploadFile.type || 'image/jpeg',
   })
 
   if (error) throw error
