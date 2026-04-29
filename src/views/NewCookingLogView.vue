@@ -85,6 +85,14 @@ const saveLog = async () => {
   await router.push(`/recipes/${props.id}`)
 }
 
+const cancel = () => {
+  if (window.history.length > 1) {
+    router.back()
+    return
+  }
+  router.push(`/recipes/${props.id}`)
+}
+
 onMounted(async () => {
   try {
     recipe.value = await recipeRepository.getById(props.id)
@@ -157,7 +165,10 @@ onMounted(async () => {
         <textarea v-model="nextNote" rows="3" placeholder="给下一次下厨的自己留一句话"></textarea>
       </label>
 
-      <button class="primary-action submit-action" type="submit">保存这次记录</button>
+      <div class="inline-actions">
+        <button class="secondary-action" type="button" @click="cancel">取消</button>
+        <button class="primary-action submit-action" type="submit">保存这次记录</button>
+      </div>
     </form>
 
     <p v-else class="muted">没有找到这道菜，暂时不能记录一次。</p>

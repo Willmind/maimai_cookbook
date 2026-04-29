@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { computed } from 'vue'
+import { RouterLink, RouterView, useRoute } from 'vue-router'
+
+const route = useRoute()
+
+const showAllRecipesButton = computed(() => route.name !== 'recipes')
+const showNewRecipeButton = computed(() => route.name !== 'new-recipe')
 </script>
 
 <template>
@@ -11,8 +17,8 @@ import { RouterLink, RouterView } from 'vue-router'
       </RouterLink>
 
       <nav class="top-actions" aria-label="主要操作">
-        <RouterLink class="secondary-action" to="/recipes">全部菜谱</RouterLink>
-        <RouterLink class="primary-action" to="/recipes/new">记一道菜</RouterLink>
+        <RouterLink v-if="showAllRecipesButton" class="secondary-action" to="/recipes">全部菜谱</RouterLink>
+        <RouterLink v-if="showNewRecipeButton" class="primary-action" to="/recipes/new">记一道菜</RouterLink>
       </nav>
     </header>
 

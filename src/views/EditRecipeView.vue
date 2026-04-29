@@ -117,6 +117,14 @@ const saveRecipe = async () => {
   await router.push(`/recipes/${recipe.value.id}`)
 }
 
+const cancel = () => {
+  if (window.history.length > 1) {
+    router.back()
+    return
+  }
+  router.push(`/recipes/${props.id}`)
+}
+
 onMounted(async () => {
   try {
     const found = await recipeRepository.getById(props.id)
@@ -220,7 +228,10 @@ onMounted(async () => {
 
       <p v-if="error" class="error-note">{{ error }}</p>
 
-      <button class="primary-action submit-action" type="submit">保存修改</button>
+      <div class="inline-actions">
+        <button class="secondary-action" type="button" @click="cancel">取消</button>
+        <button class="primary-action submit-action" type="submit">保存修改</button>
+      </div>
     </form>
 
     <p v-else class="muted">没有找到这道菜，暂时不能编辑。</p>

@@ -97,6 +97,14 @@ const saveRecipe = async () => {
 
   await router.push(`/recipes/${recipe.id}`)
 }
+
+const cancel = () => {
+  if (window.history.length > 1) {
+    router.back()
+    return
+  }
+  router.push('/recipes')
+}
 </script>
 
 <template>
@@ -190,7 +198,10 @@ const saveRecipe = async () => {
 
       <p v-if="error" class="error-note">{{ error }}</p>
 
-      <button class="primary-action submit-action" type="submit">保存这道菜</button>
+      <div class="inline-actions">
+        <button class="secondary-action" type="button" @click="cancel">取消</button>
+        <button class="primary-action submit-action" type="submit">保存这道菜</button>
+      </div>
     </form>
   </section>
 </template>
