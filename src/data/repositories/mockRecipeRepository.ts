@@ -1,4 +1,4 @@
-import type { NewRecipeInput, Recipe } from '@/types/recipe'
+import type { NewRecipeInput, Recipe, UpdateRecipeInput } from '@/types/recipe'
 
 import type { RecipeRepository } from './recipeRepository'
 
@@ -42,6 +42,36 @@ export function createMockRecipeRepository(initialRecipes: Recipe[]): RecipeRepo
 
       recipes.push(recipe)
       return recipe
+    },
+
+    async update(id: string, input: UpdateRecipeInput) {
+      const index = recipes.findIndex((recipe) => recipe.id === id)
+      if (index < 0) {
+        throw new Error('recipe not found')
+      }
+
+      const name = input.name.trim()
+      if (!name) {
+        throw new Error('name is required')
+      }
+
+      const nextRecipe: Recipe = {
+        ...recipes[index],
+        name,
+        source: input.source,
+        description: input.description,
+        coverImagePath: input.coverImagePath,
+        ingredients: input.ingredients,
+        method: input.method,
+        nextNote: input.nextNote,
+        familiarity: input.familiarity ?? recipes[index].familiarity,
+        wantToMake: input.wantToMake ?? recipes[index].wantToMake,
+        tags: input.tags ?? recipes[index].tags,
+        updatedAt: nowIso(),
+      }
+
+      recipes[index] = nextRecipe
+      return nextRecipe
     },
   }
 }

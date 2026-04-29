@@ -1,4 +1,4 @@
-import type { NewRecipeInput, Recipe, RecipeFamiliarity } from '@/types/recipe'
+import type { NewRecipeInput, Recipe, RecipeFamiliarity, UpdateRecipeInput } from '@/types/recipe'
 
 export interface RecipeRow {
   id: string
@@ -35,6 +35,21 @@ export function mapRecipeRow(row: RecipeRow): Recipe {
 }
 
 export function mapNewRecipeInput(input: NewRecipeInput) {
+  return {
+    name: input.name,
+    source: input.source ?? null,
+    description: input.description ?? null,
+    cover_image_path: input.coverImagePath ?? null,
+    ingredients: input.ingredients ?? null,
+    method: input.method ?? null,
+    next_note: input.nextNote ?? null,
+    familiarity: input.familiarity ?? 'new',
+    want_to_make: input.wantToMake ?? true,
+    tags: input.tags ?? [],
+  }
+}
+
+export function mapUpdateRecipeInput(input: UpdateRecipeInput) {
   return {
     name: input.name,
     source: input.source ?? null,

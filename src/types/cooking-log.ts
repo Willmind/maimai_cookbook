@@ -22,3 +22,12 @@ export interface NewCookingLogInput {
   photoPath?: string
 }
 
+export interface UpdateCookingLogInput {
+  cookedAt?: string
+  result?: CookingResult
+  note?: string
+  changes?: string
+  nextNote?: string
+  photoPath?: string
+}
+

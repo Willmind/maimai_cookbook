@@ -1,4 +1,4 @@
-import type { CookingLog, NewCookingLogInput } from '@/types/cooking-log'
+import type { CookingLog, NewCookingLogInput, UpdateCookingLogInput } from '@/types/cooking-log'
 
 import type { CookingLogRepository } from './cookingLogRepository'
 
@@ -10,6 +10,10 @@ export function createMockCookingLogRepository(initialLogs: CookingLog[]): Cooki
   return {
     async list() {
       return [...logs]
+    },
+
+    async getById(id) {
+      return logs.find((log) => log.id === id)
     },
 
     async listByRecipeId(recipeId) {
@@ -35,6 +39,26 @@ export function createMockCookingLogRepository(initialLogs: CookingLog[]): Cooki
 
       logs.push(log)
       return log
+    },
+
+    async update(id: string, input: UpdateCookingLogInput) {
+      const index = logs.findIndex((log) => log.id === id)
+      if (index < 0) {
+        throw new Error('cooking log not found')
+      }
+
+      const nextLog: CookingLog = {
+        ...logs[index],
+        cookedAt: input.cookedAt ?? logs[index].cookedAt,
+        result: input.result,
+        note: input.note,
+        changes: input.changes,
+        nextNote: input.nextNote,
+        photoPath: input.photoPath,
+      }
+
+      logs[index] = nextLog
+      return nextLog
     },
   }
 }

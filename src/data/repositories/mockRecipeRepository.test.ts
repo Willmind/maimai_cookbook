@@ -13,5 +13,18 @@ describe('mock recipe repository', () => {
     expect(recipe.familiarity).toBe('new')
     expect(recipe.tags).toEqual([])
   })
+
+  it('updates an existing recipe', async () => {
+    const repository = createMockRecipeRepository([])
+    const created = await repository.create({ name: '番茄炒蛋' })
+
+    const updated = await repository.update(created.id, {
+      name: '番茄炒蛋（少糖版）',
+      wantToMake: false,
+    })
+
+    expect(updated.name).toBe('番茄炒蛋（少糖版）')
+    expect(updated.wantToMake).toBe(false)
+  })
 })
 

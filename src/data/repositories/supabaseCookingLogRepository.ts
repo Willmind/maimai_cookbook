@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 
-import { mapCookingLogRow, mapNewCookingLogInput, type CookingLogRow } from '@/data/supabase/cookingLogMapper'
-import type { NewCookingLogInput } from '@/types/cooking-log'
+import { mapCookingLogRow, mapNewCookingLogInput, mapUpdateCookingLogInput, type CookingLogRow } from '@/data/supabase/cookingLogMapper'
+import type { NewCookingLogInput, UpdateCookingLogInput } from '@/types/cooking-log'
 
 import type { CookingLogRepository } from './cookingLogRepository'
 
@@ -25,6 +25,14 @@ export function createSupabaseCookingLogRepository(client: SupabaseClient): Cook
       return (data as CookingLogRow[]).map(mapCookingLogRow)
     },
 
+    async getById(id) {
+      const { data, error } = await client.from('cooking_logs').select(selectColumns).eq('id', id).maybeSingle()
+
+      if (error) throw error
+
+      return data ? mapCookingLogRow(data as CookingLogRow) : undefined
+    },
+
     async listByRecipeId(recipeId) {
       const { data, error } = await client
         .from('cooking_logs')
@@ -41,6 +49,19 @@ export function createSupabaseCookingLogRepository(client: SupabaseClient): Cook
       const { data, error } = await client
         .from('cooking_logs')
         .insert(mapNewCookingLogInput(input))
+        .select(selectColumns)
+        .single()
+
+      if (error) throw error
+
+      return mapCookingLogRow(assertCookingLogRow(data as CookingLogRow | null))
+    },
+
+    async update(id: string, input: UpdateCookingLogInput) {
+      const { data, error } = await client
+        .from('cooking_logs')
+        .update(mapUpdateCookingLogInput(input))
+        .eq('id', id)
         .select(selectColumns)
         .single()
 

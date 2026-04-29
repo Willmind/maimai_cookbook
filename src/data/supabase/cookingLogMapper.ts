@@ -1,4 +1,4 @@
-import type { CookingLog, CookingResult, NewCookingLogInput } from '@/types/cooking-log'
+import type { CookingLog, CookingResult, NewCookingLogInput, UpdateCookingLogInput } from '@/types/cooking-log'
 
 export interface CookingLogRow {
   id: string
@@ -29,6 +29,17 @@ export function mapCookingLogRow(row: CookingLogRow): CookingLog {
 export function mapNewCookingLogInput(input: NewCookingLogInput) {
   return {
     recipe_id: input.recipeId,
+    cooked_at: input.cookedAt ?? new Date().toISOString().slice(0, 10),
+    result: input.result ?? null,
+    note: input.note ?? null,
+    changes: input.changes ?? null,
+    next_note: input.nextNote ?? null,
+    photo_path: input.photoPath ?? null,
+  }
+}
+
+export function mapUpdateCookingLogInput(input: UpdateCookingLogInput) {
+  return {
     cooked_at: input.cookedAt ?? new Date().toISOString().slice(0, 10),
     result: input.result ?? null,
     note: input.note ?? null,

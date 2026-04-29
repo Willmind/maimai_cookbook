@@ -24,6 +24,7 @@ describe('RecipeDetailView', () => {
     expect(wrapper.text()).toContain('做饭记录')
     expect(wrapper.text()).toContain('2026-04-26')
     expect(wrapper.text()).toContain('这次糖少放')
+    expect(wrapper.text()).toContain('编辑菜谱')
   })
 
   it('colors cooking result tags with tones', async () => {
@@ -50,5 +51,27 @@ describe('RecipeDetailView', () => {
     const tagClasses = resultTags.map((node) => node.classes().join(' '))
     expect(tagClasses.some((classes) => classes.includes('tone-success'))).toBe(true)
     expect(tagClasses.some((classes) => classes.includes('tone-warning'))).toBe(true)
+  })
+
+  it('links each cooking log to its edit page', async () => {
+    const wrapper = mount(RecipeDetailView, {
+      props: {
+        id: 'recipe-tomato-eggs',
+      },
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub,
+        },
+      },
+    })
+
+    await flushPromises()
+
+    const links = wrapper
+      .findAllComponents(RouterLinkStub)
+      .map((node) => String(node.props('to')))
+      .filter((to) => to.includes('/logs/'))
+
+    expect(links).toContain('/recipes/recipe-tomato-eggs/logs/log-tomato-eggs-2026-04-26/edit')
   })
 })

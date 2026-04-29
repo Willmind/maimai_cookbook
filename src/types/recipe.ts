@@ -29,3 +29,16 @@ export interface NewRecipeInput {
   tags?: string[]
 }
 
+export interface UpdateRecipeInput {
+  name: string
+  source?: string
+  description?: string
+  coverImagePath?: string
+  ingredients?: string
+  method?: string
+  nextNote?: string
+  familiarity?: RecipeFamiliarity
+  wantToMake?: boolean
+  tags?: string[]
+}
+

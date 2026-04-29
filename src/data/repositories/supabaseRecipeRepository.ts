@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 
-import { mapNewRecipeInput, mapRecipeRow, type RecipeRow } from '@/data/supabase/recipeMapper'
-import type { NewRecipeInput } from '@/types/recipe'
+import { mapNewRecipeInput, mapRecipeRow, mapUpdateRecipeInput, type RecipeRow } from '@/data/supabase/recipeMapper'
+import type { NewRecipeInput, UpdateRecipeInput } from '@/types/recipe'
 
 import type { RecipeRepository } from './recipeRepository'
 
@@ -38,6 +38,19 @@ export function createSupabaseRecipeRepository(client: SupabaseClient): RecipeRe
       const { data, error } = await client
         .from('recipes')
         .insert(mapNewRecipeInput(input))
+        .select(selectColumns)
+        .single()
+
+      if (error) throw error
+
+      return mapRecipeRow(assertRecipeRow(data as RecipeRow | null))
+    },
+
+    async update(id: string, input: UpdateRecipeInput) {
+      const { data, error } = await client
+        .from('recipes')
+        .update(mapUpdateRecipeInput(input))
+        .eq('id', id)
         .select(selectColumns)
         .single()
 
