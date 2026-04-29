@@ -522,10 +522,37 @@ h3 {
 }
 
 .timeline-card {
+  display: block;
   border: 1px solid var(--line);
   border-radius: 18px;
   background: rgba(255, 253, 248, 0.74);
   padding: 14px;
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease;
+}
+
+.timeline-card:hover {
+  border-color: rgba(200, 93, 63, 0.28);
+  box-shadow: 0 12px 24px rgba(54, 36, 20, 0.08);
+  transform: translateY(-1px);
+}
+
+.timeline-card:active {
+  border-color: rgba(91, 104, 69, 0.5);
+  background: rgba(255, 253, 248, 0.9);
+  transform: translateY(0);
+  box-shadow: 0 6px 14px rgba(54, 36, 20, 0.08);
+}
+
+.timeline-card:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(213, 166, 79, 0.22),
+    0 0 0 6px rgba(213, 166, 79, 0.12),
+    0 10px 20px rgba(54, 36, 20, 0.06);
 }
 
 .timeline-entry {
@@ -791,6 +818,7 @@ h3 {
   .primary-action,
   .secondary-action,
   .recipe-card,
+  .timeline-card,
   .filter-chip {
     transition-duration: 1ms;
   }
@@ -798,6 +826,7 @@ h3 {
   .primary-action:hover,
   .secondary-action:hover,
   .recipe-card:hover,
+  .timeline-card:hover,
   .filter-chip:hover {
     transform: none;
   }
