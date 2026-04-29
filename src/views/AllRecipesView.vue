@@ -27,12 +27,6 @@ const visibleRecipes = computed(() => {
   return filterRecipes(searched, activeFilter.value).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
 })
 
-const familiarityLabel = (recipe: Recipe) => {
-  if (recipe.familiarity === 'frequent') return '常做'
-  if (recipe.familiarity === 'done') return '做过'
-  return '没做过'
-}
-
 const recipeCoverUrl = (recipe: Recipe) => getPublicImageUrl('recipe-covers', recipe.coverImagePath)
 
 onMounted(async () => {
@@ -73,16 +67,7 @@ onMounted(async () => {
         </div>
         <div>
           <h3>{{ recipe.name }}</h3>
-          <p class="muted">
-            {{ familiarityLabel(recipe) }}
-            <span v-if="recipe.wantToMake"> · 想做</span>
-            <span v-if="recipe.nextNote"> · {{ recipe.nextNote }}</span>
-          </p>
-          <div class="tags">
-            <span class="tag">{{ familiarityLabel(recipe) }}</span>
-            <span v-if="recipe.wantToMake" class="tag">想做</span>
-            <span v-for="tag in recipe.tags" :key="tag" class="tag">{{ tag }}</span>
-          </div>
+          <p class="muted">{{ recipe.description ?? '还没有简介。' }}</p>
         </div>
       </RouterLink>
     </div>

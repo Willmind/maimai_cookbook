@@ -45,4 +45,20 @@ describe('AllRecipesView', () => {
     expect(wrapper.text()).toContain('照烧鸡腿饭')
     expect(wrapper.text()).not.toContain('番茄炒蛋')
   })
+
+  it('shows only title, description and thumbnail in recipe cards', async () => {
+    const wrapper = mount(AllRecipesView, {
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub,
+        },
+      },
+    })
+
+    await flushPromises()
+
+    expect(wrapper.text()).toContain('家里最常做的版本')
+    expect(wrapper.text()).not.toContain('家常')
+    expect(wrapper.text()).not.toContain('下饭')
+  })
 })
