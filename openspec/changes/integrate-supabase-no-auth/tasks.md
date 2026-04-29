@@ -17,18 +17,18 @@
 
 ## 3. Client And Environment
 
-- [ ] 安装 `@supabase/supabase-js`。
-- [ ] 新增 Supabase client 模块。
-- [ ] 新增 `.env.example`，包含 `VITE_DATA_SOURCE`、`VITE_SUPABASE_URL`、`VITE_SUPABASE_ANON_KEY`。
-- [ ] 让 repository selection 使用 `VITE_DATA_SOURCE`。
+- [x] 安装 `@supabase/supabase-js`。
+- [x] 新增 Supabase client 模块。
+- [x] 新增 `.env.example`，包含 `VITE_DATA_SOURCE`、`VITE_SUPABASE_URL`、`VITE_SUPABASE_ANON_KEY`。
+- [x] 让 repository selection 使用 `VITE_DATA_SOURCE`。
 
 ## 4. Supabase Repositories
 
-- [ ] 新增 recipe row/domain mapper。
-- [ ] 新增 cooking log row/domain mapper。
-- [ ] 实现 Supabase recipe repository。
-- [ ] 实现 Supabase cooking log repository。
-- [ ] 保持 mock repository 作为默认本地 fallback。
+- [x] 新增 recipe row/domain mapper。
+- [x] 新增 cooking log row/domain mapper。
+- [x] 实现 Supabase recipe repository。
+- [x] 实现 Supabase cooking log repository。
+- [x] 保持 mock repository 作为默认本地 fallback。
 
 ## 5. Image Upload Flow
 
