@@ -143,27 +143,26 @@
 
 .recipe-directory .recipe-card {
   grid-template-columns: 96px 1fr;
-  align-items: start;
-  min-height: 118px;
+  align-items: center;
 }
 
 .recipe-directory .photo-frame {
   width: 96px;
   height: 96px;
-  min-height: 96px;
   aspect-ratio: 1 / 1;
 }
 
 .recipe-directory .recipe-card-copy {
   min-width: 0;
   display: grid;
-  gap: 6px;
+  gap: 4px;
 }
 
 .recipe-directory .recipe-title {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: 16px;
 }
 
 .recipe-directory .recipe-summary {
@@ -171,7 +170,40 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   overflow: hidden;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.home-fixed-thumb .recipe-card {
+  grid-template-columns: 96px 1fr;
+  align-items: center;
+}
+
+.home-fixed-thumb .photo-frame {
+  width: 96px;
+  height: 96px;
+  min-height: 96px;
+  aspect-ratio: 1 / 1;
+}
+
+.home-fixed-thumb .recipe-card h3 {
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home-fixed-thumb .recipe-card .muted {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 1.4;
 }
 
 .timeline {

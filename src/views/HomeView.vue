@@ -62,7 +62,7 @@ onMounted(async () => {
       <div class="search-groups">
         <div>
           <h3>菜谱</h3>
-          <div class="card-list">
+          <div class="card-list home-fixed-thumb">
             <RouterLink
               v-for="recipe in searchResult.recipes"
               :key="recipe.id"
@@ -85,7 +85,7 @@ onMounted(async () => {
 
         <div>
           <h3>做饭记录</h3>
-          <div class="card-list">
+          <div class="card-list home-fixed-thumb">
             <RouterLink
               v-for="log in searchResult.logs"
               :key="log.id"
@@ -115,7 +115,7 @@ onMounted(async () => {
           <span class="counter">{{ recentLogs.length }} 条</span>
         </div>
 
-        <div class="card-list">
+        <div class="card-list home-fixed-thumb">
           <RouterLink
             v-for="log in recentLogs"
             :key="log.id"
@@ -146,7 +146,7 @@ onMounted(async () => {
           <span class="counter">{{ wantToMakeRecipes.length }} 道</span>
         </div>
 
-        <div class="card-list">
+        <div class="card-list home-fixed-thumb">
           <RouterLink
             v-for="recipe in wantToMakeRecipes"
             :key="recipe.id"
